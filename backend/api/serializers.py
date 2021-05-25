@@ -129,6 +129,23 @@ class StoreGameSerializer(serializers.ModelSerializer):
         }
 
 
+class AnonStoreGameSerializer(serializers.ModelSerializer):
+    game = BggGameSerializer(read_only=True)
+    is_available = serializers.SerializerMethodField()
+
+    class Meta:
+        model = StoreGame
+        fields = (
+            'id',
+            'game',
+            'selling_price',
+            'is_available'
+        )
+
+    def get_is_available(self, data):
+        return data.stock > 0
+
+
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
 

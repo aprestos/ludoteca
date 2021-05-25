@@ -2,7 +2,7 @@
   <div>
     <b-row class="">
       <b-col v-for="(game, index) in games" :key="index" cols="12" sm="6" md="4" xl="3">
-        <Game :game="game" :loading="loading" />
+        <Game :game="game" :loading="loading" @update="$emit('update', $event)" @delete="$emit('delete', $event)"/>
       </b-col>
     </b-row>
   </div>
@@ -10,6 +10,7 @@
 
 <script>
 import Game from './Game'
+
 
 export default {
   name: 'Games',

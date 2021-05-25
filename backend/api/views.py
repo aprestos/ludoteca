@@ -67,12 +67,16 @@ class LibraryGameViewSet(viewsets.ModelViewSet):
 
 class StoreGameViewSet(viewsets.ModelViewSet):
     queryset = StoreGame.objects.order_by('game__name')
-    serializer_class = StoreGameSerializer
     search_fields = ['game__name', 'game__other_names']
     filter_backends = (filters.SearchFilter, django_filters.DjangoFilterBackend)
     permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)
     authentication_classes = [authentication.JWTAuthentication]
     pagination_class = StandardResultsSetPagination
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return StoreGameSerializer
+        return AnonStoreGameSerializer
 
     def perform_create(self, serializer):
         bggid = serializer.initial_data['game_id']
@@ -126,4 +130,4 @@ class ConfigurationViewSet(viewsets.ModelViewSet):
     queryset = Configuration.objects.all()
     serializer_class = ConfigurationSerializer
     authentication_classes = [authentication.JWTAuthentication]
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)

@@ -19,6 +19,12 @@ function search(search) {
       }
       let items = response.items.item
 
+      console.log(items)
+      // When only one result is returned by API for some reason it doesn't return as an Array ¯\_(ツ)_/¯
+      if (!Array.isArray(items)){
+        items = [items]
+      }
+
       items = items.map(item => {
         item.name = getGameName(item)
         item.rank = calculateRank(item.name, search)

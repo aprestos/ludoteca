@@ -7,6 +7,7 @@
     :title="title"
     item-metadata="email"
     item-title="name"
+    :loading="loading"
     @search="search"
     @selected="$emit('selected', $event)"
   >
@@ -136,8 +137,13 @@ export default {
     },
     search(val) {
       this.form.name = val
-      supplierService.filter({'search': val})
-        .then((response) => (this.suppliers = response))
+      this.loading = true
+
+      Promise.all([
+        supplierService.filter({'search': val}),
+        new Promise(r => setTimeout(r, 750))
+      ]).then((responses)=>this.suppliers = responses[0]).finally(() => this.loading = false)
+
     },
     onSubmit() {
       this.$v.form.$touch()

@@ -39,7 +39,6 @@ export default new Vuex.Store({
       dispatch('library/loadLocations')
       dispatch('library/loadPlayers')
       dispatch('store/loadSuppliers')
-      dispatch('configurations/load')
     }
   },
 

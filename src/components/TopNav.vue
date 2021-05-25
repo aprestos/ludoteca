@@ -10,10 +10,10 @@
       <b-collapse id="nav-collapse" class="w-100" is-nav>
         <b-navbar-nav>
           <b-nav-item :to="{ name: 'LibraryHome' }" active-class="active">
-            Ludoteca
+            Library
           </b-nav-item>
           <b-nav-item :to="{ name: 'StoreHome' }" active-class="active">
-            Loja
+            Store
           </b-nav-item>
         </b-navbar-nav>
 
@@ -57,9 +57,6 @@ export default {
     logout() {
       authorizationService.logout()
       location.reload()
-    },
-    isAuthenticated() {
-      return authorizationService.isAuthenticated()
     },
   },
 }

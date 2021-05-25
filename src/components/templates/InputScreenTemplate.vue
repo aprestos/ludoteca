@@ -28,7 +28,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container class="mt-5 mt-md-6">
+    <b-container class="">
       <b-row class="justify-content-center">
         <b-col lg="10" md="10" sm="12" xl="8">
           <form novalidate @submit.stop.prevent="onSubmit">

@@ -8,70 +8,27 @@
     <template #content>
 
         <!-- Game -->
-        <b-form-group invalid-feedback="This field is required" label="Game">
-          <div
-            v-if="!game.id"
-            class="d-flex flex-row align-items-center justify-content-between"
-          >
-            <span class="text-muted">No game selected</span>
-            <b-button v-b-modal.game-select-modal variant="outline-secondary"
-              >Search games</b-button
-            >
-          </div>
-          <b-form-input
-            v-model="form.game_id"
+        <b-form-group class="max-width-3-md" invalid-feedback="This field is required" label="Game">
+
+          <l-form-select
+            v-model="game.name"
             :state="validateState('game_id')"
-            hidden
-          ></b-form-input>
+            @select="$bvModal.show('game-select-modal')"/>
 
           <!-- modal -->
           <ModalGameSelect
             id="game-select-modal"
             @game-selected="assignGame"
           ></ModalGameSelect>
-
-          <!-- details -->
-          <b-card v-if="!!game.id" :game="game">
-            <b-media>
-              <template #aside>
-                <b-avatar :src="game.thumbnail" rounded size="lg"/>
-              </template>
-              <div class="d-flex flex-column">
-              <span>{{game.name}}</span>
-                <metadata-item icon="calendar-fill" :text="game.year"/>
-                </div>
-            </b-media>
-          </b-card>
         </b-form-group>
 
         <!-- Owner -->
-        <b-form-group invalid-feedback="This field is required" label="Owner">
-          <div
-            v-if="!player.id"
-            class="d-flex flex-row align-items-center justify-content-between"
-          >
-            <span class="text-muted">No player selected</span>
-            <b-button v-b-modal.player-select-modal variant="outline-secondary"
-              >Search players</b-button
-            >
-          </div>
-          <b-form-input
-            v-model="form.owner_id"
+        <b-form-group class="max-width-3-md" invalid-feedback="This field is required" label="Owner">
+          <l-form-select
+            v-model="player.name"
             :state="validateState('owner_id')"
-            hidden
-          ></b-form-input>
+            @select="$bvModal.show('player-select-modal')"/>
 
-                  <b-card v-if="!!player.id" >
-            <b-media>
-              <template #aside>
-                <b-avatar variant="light" size="lg"/>
-              </template>
-              <div class="d-flex flex-column">
-              <span>{{player.name}}</span>
-                <metadata-item icon="envelope" :text="player.email"/>
-                </div>
-            </b-media>
-          </b-card>
           <!-- Owner modal -->
           <ModalPlayerSelect
             id="player-select-modal"
@@ -81,6 +38,7 @@
 
         <!-- Location -->
         <b-form-group
+            class="max-width-2-md"
           invalid-feedback="This field is required"
           label="Location"
         >
@@ -101,20 +59,13 @@
         <!-- Notes -->
         <b-form-group description="Optional" label="Notes">
           <b-form-textarea
+              size="lg"
             v-model="form.notes"
             placeholder="Eg. expansion included, missing components"
           ></b-form-textarea>
         </b-form-group>
 
         <div class="d-flex flex-row justify-content-end mt-5">
-<!--          <b-button-->
-<!--            size="lg"-->
-<!--            variant="link"-->
-<!--            class="mr-3 text-muted"-->
-<!--            :to="{ name: 'LibraryHome' }"-->
-<!--            >Cancel</b-button-->
-<!--          >-->
-<!--          <b-button size="lg" type="submit" variant="primary">Create</b-button>-->
         </div>
     </template>
   </WizardScreen>
@@ -129,18 +80,18 @@ import formMixin from '@/mixins/form.mixins'
 import ModalPlayerSelect from '@/components/ModalPlayerSelect'
 import InputScreenTemplate from '@/components/templates/InputScreenTemplate'
 import FormSelect from '@/components/FormSelect'
+import LFormSelect from "@/components/form/LFormSelect"
 
 import { required } from 'vuelidate/lib/validators'
-import MetadataItem from "@/components/cards/MetadataItem"
 
 export default {
   name: 'AddGame',
   components: {
-    MetadataItem,
     WizardScreen: InputScreenTemplate,
     ModalPlayerSelect,
     ModalGameSelect,
     FormSelect,
+    LFormSelect
   },
   mixins: [gamesMixin, formMixin],
   data() {

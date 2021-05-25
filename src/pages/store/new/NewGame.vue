@@ -1,7 +1,7 @@
 <template>
   <InputScreenTemplate title="Add game" pre-title="Store" @submit="onSubmit" :back-to="{name: 'StoreHome'}">
     <form >
-      <b-form-group class="max-width-3" invalid-feedback="No game selected" label="Game">
+      <b-form-group class="max-width-3-md" invalid-feedback="No game selected" label="Game">
           <l-form-select
             v-model="game.name"
             :state="validateState('game_id')"
@@ -13,9 +13,9 @@
             @game-selected="assignGame"
         ></ModalGameSelect>
 
-      <b-form-group invalid-feedback="No supplier selected" label="Supplier">
+      <b-form-group class="max-width-3-md" invalid-feedback="No supplier selected" label="Supplier">
         <b-input-group>
-          <b-form-input :state="validateState('supplier_id')" class="max-width-3" placeholder="Select an option" size="lg" readonly v-model="supplier.name"/>
+          <b-form-input :state="validateState('supplier_id')"  placeholder="Select an option" size="lg" readonly v-model="supplier.name"/>
           <b-input-group-append>
             <b-button v-b-modal:supplier-select-modal variant="outline-secondary"
             ><i class="fe fe-search mr-2"/>Search
@@ -33,15 +33,15 @@
           id="supplier-select-modal"
           @selected="assignSupplier"/>
 
-        <b-form-group class="max-width-2" invalid-feedback="Invalid amount" label="Selling price">
+        <b-form-group class="max-width-2-md" invalid-feedback="Invalid amount" label="Selling price">
           <l-form-input-currency :state="validateState('selling_price')" v-model="form.selling_price"/>
         </b-form-group>
 
-        <b-form-group class="max-width-2" label="Buying price" invalid-feedback="Invalid amount">
+        <b-form-group class="max-width-2-md" label="Buying price" invalid-feedback="Invalid amount">
           <l-form-input-currency :state="validateState('buying_price')" v-model="form.buying_price"/>
         </b-form-group>
 
-      <b-form-group label="Stock" class="max-width-2" invalid-feedback="Invalid number">
+      <b-form-group label="Stock" class="max-width-2-md" invalid-feedback="Invalid number">
         <b-form-input number size="lg" placeholder="Insert a quantity" v-model="form.stock" :state="validateState('stock')" />
       </b-form-group>
     </form>

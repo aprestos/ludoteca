@@ -1,5 +1,7 @@
 import { unauthApi, authApi } from '@/services/api'
 
+import authorizationService from '@/services/authorization.service'
+
 const URL = '/api/store/'
 
 export default {
@@ -9,7 +11,9 @@ export default {
    * @returns {Promise<*>}
    */
   fetchGames(page) {
-    return unauthApi
+    const api = authorizationService.isAuthenticated() ? authApi : unauthApi
+
+    return api
       .get(URL + 'games/', {
         params: {
           page: page,

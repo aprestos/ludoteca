@@ -5,5 +5,8 @@ export default {
     isAuthenticated: function() {
       return authorizationService.isAuthenticated()
     },
+    isAdmin: function(){
+      return this.$store.getters["users/current"].is_staff
+    }
   },
 }

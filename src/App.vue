@@ -17,6 +17,7 @@ export default {
     if (authorizationService.isAuthenticated()) {
       this.$store.dispatch("init")
     }
+    this.$store.dispatch("configurations/load")
   },
 }
 </script>

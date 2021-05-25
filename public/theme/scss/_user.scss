@@ -3,22 +3,25 @@
 // Use this to write your custom SCSS
 //
 
-.max-width-1{
-  max-width: 10rem;
+@media screen and (min-width: 768px) {
+  .max-width-1-md {
+    max-width: 10rem;
+  }
+
+  .max-width-2-md {
+    max-width: 20rem;
+  }
+
+  .max-width-3-md {
+    max-width: 30rem;
+  }
+
+  .max-width-4-md {
+    max-width: 40rem;
+  }
+
+  .max-width-5-md {
+    max-width: 50rem;
+  }
 }
 
-.max-width-2{
-  max-width: 20rem;
-}
-
-.max-width-3{
-  max-width: 30rem;
-}
-
-.max-width-4{
-  max-width: 40rem;
-}
-
-.max-width-5{
-  max-width: 50rem;
-}
