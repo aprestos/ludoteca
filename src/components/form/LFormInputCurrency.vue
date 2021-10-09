@@ -1,18 +1,28 @@
 <template>
-  <currency-input
-      class="form-control form-control-lg"
+  <b-form-input
+      :value="formattedValue"
+      size="lg"
       placeholder="Insert an amount"
-      :value="value"
-      :state="state"
+      @input="$emit('input', $event)"
       :class="{'is-invalid': state === false}"
-      @input="$emit('input', $event)"/>
+  />
+
+<!--  <currency-input-->
+<!--      class="form-control form-control-lg"-->
+<!--      placeholder="Insert an amount"-->
+<!--      :value="value"-->
+<!--      :state="state"-->
+<!--      :class="{'is-invalid': state === false}"-->
+<!--      @input="$emit('input', $event)"/>-->
 </template>
 
 <script>
-import { CurrencyInput } from 'vue-currency-input'
+import { useCurrencyInput } from 'vue-currency-input'
+
 export default {
   name: "LFormCurrency",
   props: {
+    options: Object,
     value: {
       required: true
     },
@@ -20,8 +30,13 @@ export default {
       default: true
     }
   },
+  setup (props) {
+    const { formattedValue, inputRef } = useCurrencyInput(props.options)
+
+    return { inputRef, formattedValue }
+  },
   components: {
-    CurrencyInput
+
   }
 }
 </script>

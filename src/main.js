@@ -43,15 +43,6 @@ Vue.use(BootstrapVueIcons)
 
 Vue.use(Vuelidate)
 
-
-import VueCurrencyInput from 'vue-currency-input'
-
-const pluginOptions = {
-  /* see config reference */
-  globalOptions: {locale: 'pt-PT', precision: 2 }
-}
-Vue.use(VueCurrencyInput, pluginOptions)
-
 // Other configurations
 Vue.config.productionTip = false
 
