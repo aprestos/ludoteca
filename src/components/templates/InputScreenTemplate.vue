@@ -5,8 +5,8 @@
               <b-row class="py-3 align-items-center">
                 <b-col cols="auto">
                   <b-button size="lg" :to="backTo" variant="light" class="btn-rounded-circle">
-                    <span class="fe fe-arrow-left"></span></b-button
-                ></b-col>
+                    <span class="fe fe-arrow-left"></span></b-button>
+                </b-col>
                 <b-col>
                   <div class="d-flex flex-column">
                     <b-breadcrumb :items="[{text: 'Store', href: '#'}, {text: 'New', href: '#'}]"></b-breadcrumb>

@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'phonenumber_field',
     'django_rest_passwordreset',
-    'backend.api',
+    'backend.api.apps.ApiConfig'
 ]
 
 MIDDLEWARE = [
@@ -154,3 +154,5 @@ WHITENOISE_INDEX_FILE = True
 
 # Custom class for user, this allows to customize login and required classes for default authentication user class
 AUTH_USER_MODEL = 'api.User'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "ludoteca"
+version = "0.1.0"
+description = ""
+authors = ["Fábio Ferreira <fabiogasparferreira@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = "3.2.8"
+djangorestframework = "^3.12.4"
+django-filter = "^21.1"
+gunicorn = "^20.1.0"
+whitenoise = "^5.3.0"
+dj-database-url = "^0.5.0"
+psycopg2-binary = "^2.9.1*"
+boardgamegeek2 = "^1.0.1"
+pandas = "^1.3.3"
+djangorestframework-simplejwt = "^4.8.0"
+django-crispy-forms = "^1.13.0"
+phonenumberslite = "^8.12.34"
+django-phonenumber-field = "^5.2.0"
+django-rest-passwordreset = "^1.2.0"
+requests-cache = "0.5.2"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.11.1"
+black = "^21.9b0"
+isort = "^5.9.3"
+pre-commit = "^2.15.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
