@@ -13,10 +13,13 @@ admin.site.register(User, UserAdmin)
 
 @admin.register(BggGame)
 class BggGameAdmin(admin.ModelAdmin):
-    fields = ('name', 'bggid','badges')
-    list_display = ('name', 'bggid', 'rank')
-    readonly_fields = ('bggid', 'name',)
-    ordering = ('name',)
+    fields = ("name", "bggid", "badges")
+    list_display = ("name", "bggid", "rank")
+    readonly_fields = (
+        "bggid",
+        "name",
+    )
+    ordering = ("name",)
 
 
 admin.site.register(Badge)
@@ -24,6 +27,5 @@ admin.site.register(Badge)
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type')
-    ordering = ('name', 'type')
-
+    list_display = ("name", "type")
+    ordering = ("name", "type")

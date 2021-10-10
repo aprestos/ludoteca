@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0001_initial'),
+        ("api", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='bgggame',
-            name='other_names',
+            model_name="bgggame",
+            name="other_names",
             field=models.JSONField(blank=True, default=list),
         ),
         migrations.AlterField(
-            model_name='bgggame',
-            name='bggid',
+            model_name="bgggame",
+            name="bggid",
             field=models.CharField(max_length=100, primary_key=True, serialize=False),
         ),
         migrations.AlterField(
-            model_name='bgggame',
-            name='name',
+            model_name="bgggame",
+            name="name",
             field=models.CharField(max_length=200),
         ),
     ]

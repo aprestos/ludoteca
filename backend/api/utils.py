@@ -8,12 +8,13 @@ from backend.api.models import BggGame, LibraryGame
 
 User = get_user_model()
 
+
 class Player:
     @staticmethod
     def create_player(username):
         player = User()
         player.username = username
-        player.email = username + '@' + 'dumbmail.com'
+        player.email = username + "@" + "dumbmail.com"
         player.first_name = username
         player.save()
         return player
@@ -45,7 +46,7 @@ class Library:
 
             game.save()
         else:
-            print('game not found (' + str(bgg_id) + ')')
+            print("game not found (" + str(bgg_id) + ")")
 
 
 class BGGGame:
@@ -87,23 +88,23 @@ class BoardGameGeek:
                 return bgg.game(game_id=bgg_id)
 
             except bgg_exceptions.BGGValueError:
-                print('[ERROR] Invalid parameters')
+                print("[ERROR] Invalid parameters")
                 raise
 
             except bgg_exceptions.BGGApiRetryError:
-                print('[ERROR] Retry after delay, retrying...')
+                print("[ERROR] Retry after delay, retrying...")
                 BoardGameGeek._retry(max_count)
 
             except bgg_exceptions.BGGApiError:
-                print('[ERROR] API response invalid or not parsed')
+                print("[ERROR] API response invalid or not parsed")
                 BoardGameGeek._retry(max_count)
 
             except bgg_exceptions.BGGApiTimeoutError:
-                print('[ERROR] Timeout')
+                print("[ERROR] Timeout")
                 BoardGameGeek._retry(max_count)
 
             except Exception as err:
-                print('[ERROR] Exception caught getting external game: ' + str(err))
+                print("[ERROR] Exception caught getting external game: " + str(err))
                 BoardGameGeek._retry(max_count)
 
         raise Exception

@@ -4,7 +4,6 @@ from backend.api.models import LibraryGame, Withdraw, Location, User
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
         for w in Withdraw.objects.all():
             w.delete()

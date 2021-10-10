@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0002_auto_20210210_1622'),
+        ("api", "0002_auto_20210210_1622"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='location',
-            name='type',
-            field=models.CharField(choices=[('room', 'Room'), ('shelf', 'Shelf')], default='shelf', max_length=32),
+            model_name="location",
+            name="type",
+            field=models.CharField(
+                choices=[("room", "Room"), ("shelf", "Shelf")],
+                default="shelf",
+                max_length=32,
+            ),
         ),
     ]

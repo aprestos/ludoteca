@@ -1,4 +1,3 @@
-
 import random
 
 
@@ -15,11 +14,10 @@ bgg = BGGClient()
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
         shelves = Location.objects.all()
 
-        statuses = ['not-checkedin', 'available', 'not-available', 'checkedout']
+        statuses = ["not-checkedin", "available", "not-available", "checkedout"]
 
         for game in LibraryGame.objects.all():
             # understand wich it will be the status of the mocked game

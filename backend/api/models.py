@@ -15,10 +15,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class User(AbstractUser):
-    email = models.EmailField(_('email address'), unique=True)
+    email = models.EmailField(_("email address"), unique=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
 
 class Badge(models.Model):
@@ -36,9 +36,9 @@ class Supplier(models.Model):
 
 
 class Location(models.Model):
-    TYPE_ROOM = 'room'
-    TYPE_SHELF = 'shelf'
-    TYPES = [(TYPE_ROOM, 'Room'), (TYPE_SHELF, 'Shelf')]
+    TYPE_ROOM = "room"
+    TYPE_SHELF = "shelf"
+    TYPES = [(TYPE_ROOM, "Room"), (TYPE_SHELF, "Shelf")]
 
     name = models.CharField(max_length=20, unique=True)
     type = models.CharField(max_length=32, choices=TYPES, default=TYPE_SHELF)
@@ -58,14 +58,18 @@ class BggGame(models.Model):
     max_players = models.IntegerField(null=True)
     min_playtime = models.IntegerField(null=True)
     max_playtime = models.IntegerField(null=True)
-    thumbnail = models.CharField(blank=True, max_length=500, default='')
+    thumbnail = models.CharField(blank=True, max_length=500, default="")
     image = models.CharField(blank=True, max_length=500)
     other_names = models.JSONField(blank=True, default=list)
 
     @staticmethod
     def most_withdraws(number):
-        return Withdraw.objects.all().values('game__game__name', 'game__game__image').annotate(
-            total=Count('game')).order_by('-total')[:number]
+        return (
+            Withdraw.objects.all()
+            .values("game__game__name", "game__game__image")
+            .annotate(total=Count("game"))
+            .order_by("-total")[:number]
+        )
 
     def __unicode__(self):
         return self.name
@@ -91,17 +95,19 @@ class Game(models.Model):
 
 
 class LibraryGame(Game):
-    location = models.ForeignKey(Location, null=True, blank=True, default=None, on_delete=models.CASCADE)
+    location = models.ForeignKey(
+        Location, null=True, blank=True, default=None, on_delete=models.CASCADE
+    )
 
     def status(self):
         if not self.location or self.date_checkin is None:
-            return 'not-checked-in'
+            return "not-checked-in"
         elif self.date_checkout is not None:
-            return 'checked-out'
+            return "checked-out"
         elif self.withdraw_set.filter(date_returned=None).count() == 0:
-            return 'available'
+            return "available"
         else:
-            return 'not-available'
+            return "not-available"
 
     def current_withdraw(self):
         if self.status() == "not-available":
@@ -122,7 +128,9 @@ class UsedGame(Game):
 
 class StoreGame(models.Model):
     game = models.ForeignKey(BggGame, null=True, blank=True, on_delete=models.CASCADE)
-    supplier = models.ForeignKey(Supplier, null=True, blank=True, on_delete=models.CASCADE)
+    supplier = models.ForeignKey(
+        Supplier, null=True, blank=True, on_delete=models.CASCADE
+    )
     selling_price = models.FloatField(default=0.0, blank=False, null=False)
     buying_price = models.FloatField(default=0.0, blank=False, null=False)
     stock = models.FloatField(default=0.0, blank=False, null=False)
@@ -149,27 +157,36 @@ class Withdraw(models.Model):
     @staticmethod
     def last(days):
 
-        items = Withdraw.objects.filter(date_withdrawn__range=(datetime.now() - timedelta(days=days), datetime.now())) \
-            .extra({'date_withdrawn': "date(date_withdrawn)"}) \
-            .values('date_withdrawn') \
-            .annotate(created_count=Count('id'))
+        items = (
+            Withdraw.objects.filter(
+                date_withdrawn__range=(
+                    datetime.now() - timedelta(days=days),
+                    datetime.now(),
+                )
+            )
+            .extra({"date_withdrawn": "date(date_withdrawn)"})
+            .values("date_withdrawn")
+            .annotate(created_count=Count("id"))
+        )
 
         items = list(items)
 
-        dates = [x.get('date_withdrawn') for x in items]
+        dates = [x.get("date_withdrawn") for x in items]
 
         for d in (datetime.today() - timedelta(days=x) for x in range(0, days)):
             if d.date().isoformat() not in dates:
-                items.append({'date_withdrawn': d.date().isoformat(), 'created_count': 0})
+                items.append(
+                    {"date_withdrawn": d.date().isoformat(), "created_count": 0}
+                )
 
-        items.sort(key=lambda o: o['date_withdrawn'])
+        items.sort(key=lambda o: o["date_withdrawn"])
         return items
 
 
 class Configuration(models.Model):
     class Types(models.TextChoices):
-        STORE = 'store', 'Store'
-        LIBRARY = 'library', 'Library'
+        STORE = "store", "Store"
+        LIBRARY = "library", "Library"
 
     key = models.fields.CharField(unique=True, max_length=100)
     type = models.TextField(choices=Types.choices)
@@ -177,9 +194,12 @@ class Configuration(models.Model):
 
 
 @receiver(reset_password_token_created)
-def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
-    email_plaintext_message = "{}?token={}".format(reverse('password_reset:reset-password-request'),
-                                                   reset_password_token.key)
+def password_reset_token_created(
+    sender, instance, reset_password_token, *args, **kwargs
+):
+    email_plaintext_message = "{}?token={}".format(
+        reverse("password_reset:reset-password-request"), reset_password_token.key
+    )
 
     send_mail(
         # title:
@@ -189,5 +209,5 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         # from:
         "noreply@somehost.local",
         # to:
-        [reset_password_token.user.email]
+        [reset_password_token.user.email],
     )

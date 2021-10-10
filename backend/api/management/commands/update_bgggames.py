@@ -12,7 +12,6 @@ bgg = BGGClient()
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
         for game in BggGame.objects.all():
             external_game = utils.BoardGameGeek.get_external_game(game.bggid)

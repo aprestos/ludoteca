@@ -6,21 +6,34 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0004_storegame'),
+        ("api", "0004_storegame"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Configuration',
+            name="Configuration",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('key', models.CharField(max_length=100, unique=True)),
-                ('type', models.TextField(choices=[('store', 'Store'), ('library', 'Library')])),
-                ('value', models.TextField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("key", models.CharField(max_length=100, unique=True)),
+                (
+                    "type",
+                    models.TextField(
+                        choices=[("store", "Store"), ("library", "Library")]
+                    ),
+                ),
+                ("value", models.TextField()),
             ],
         ),
         migrations.RemoveField(
-            model_name='storegame',
-            name='selling_price_associate',
+            model_name="storegame",
+            name="selling_price_associate",
         ),
     ]
