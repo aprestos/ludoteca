@@ -2,6 +2,7 @@
   <b-form-input
       :value="formattedValue"
       size="lg"
+      ref="inputRef"
       placeholder="Insert an amount"
       @input="$emit('input', $event)"
       :class="{'is-invalid': state === false}"
@@ -30,8 +31,14 @@ export default {
       default: true
     }
   },
-  setup (props) {
-    const { formattedValue, inputRef } = useCurrencyInput(props.options)
+  setup () {
+    const { formattedValue, inputRef } = useCurrencyInput({
+    currency: 'EUR',
+    hideCurrencySymbolOnFocus: true,
+    hideGroupingSeparatorOnFocus: true,
+    hideNegligibleDecimalDigitsOnFocus: true,
+    precision: 2
+    })
 
     return { inputRef, formattedValue }
   },

@@ -1,5 +1,8 @@
 <template>
-  <InputScreenTemplate title="Add game" pre-title="Store" @submit="onSubmit" :back-to="{name: 'StoreHome'}">
+  <InputScreenTemplate
+      title="New game"
+      :breadcrumb="[{text: 'Store', to: {name: 'StoreHome'}},{text: 'New'}]"
+      pre-title="Store" @submit="onSubmit" :back-to="{name: 'StoreHome'}">
     <form >
       <b-form-group class="max-width-3-md" invalid-feedback="No game selected" label="Game">
           <l-form-select

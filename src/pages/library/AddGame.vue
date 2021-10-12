@@ -3,6 +3,7 @@
     :back-to="{ name: 'Home' }"
     pre-title="library"
     title="New game"
+    :breadcrumb="[{text: 'Library', to: {'name': 'LibraryHome'}}, {text: game.game.name},{text: 'Withdraw'}]"
     @submit="onSubmit"
   >
     <template #content>

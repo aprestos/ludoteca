@@ -1,5 +1,8 @@
 <template>
-  <WizardScreen :title="title" :back-to="{ name: 'LibraryHome' }" @submit="doWithdraw">
+  <WizardScreen :title="game.game.name"
+                :back-to="{ name: 'LibraryHome' }"
+                pre-title="Withdraw"
+                @submit="doWithdraw">
     <template #content>
       <b-form>
         <b-form-group
@@ -17,7 +20,7 @@
         >
         </ModalPlayerSelect>
 
-        <b-form-group class="mt-5" :label="game.game.name">
+        <b-form-group class="mt-5" label="Location">
           <LocationShelves :location="game.location.name" />
         </b-form-group>
 
