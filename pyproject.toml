@@ -5,7 +5,7 @@ description = ""
 authors = ["Fábio Ferreira <fabiogasparferreira@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.8.9"
 django = "3.2.8"
 djangorestframework = "^3.12.4"
 django-filter = "^21.1"
