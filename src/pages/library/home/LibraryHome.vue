@@ -1,7 +1,7 @@
 <template>
   <HomeScreenTemplate :title="title" :pre-title="pretitle">
     <template #actions>
-      <div v-if="isAuthenticated()">
+      <div v-if="isAdmin()">
           <b-dropdown class="mr-3" no-caret variant="white">
             <template #button-content>
               <b-icon-gear />
@@ -69,16 +69,18 @@
         <b-col
           v-for="(game, index) in games"
           :key="index"
-          cols="12"
-          sm="6"
-          md="4"
-          xl="3"
+          cols="6"
+          sm="4"
+          md="3"
+          lg="2"
+          class="d-flex"
         >
           <Game
               :game="game"
               :loading="loading"
               :selectable="isGameSelectable(game)"
               :selected="selected.includes(game.id)"
+              :is-bulk-enabled="bulk"
               @selected-change="updateSelected"
               @check-in="openLocationModal"
               @return="refreshGames"
@@ -276,9 +278,9 @@ export default {
       if (isOwnerLeiriaCon) {
         this.$bvModal
           .msgBoxConfirm(
-            "You selected games from leiriacon's library. Do you want to check-out?",
+            "The selected games will be removed from the library. Do you want to continue?",
             {
-              title: 'Check-out',
+              title: 'Are you sure?',
               okVariant: 'danger',
               okTitle: 'Yes',
               cancelTitle: 'No',

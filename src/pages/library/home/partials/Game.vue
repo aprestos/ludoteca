@@ -1,166 +1,98 @@
 <template>
-  <b-skeleton-wrapper :loading="loading">
+  <l-game-card :image="game.game.image" :loading="loading" :selected="selected" :title="game.game.name"
+               game_id="game.id">
+
     <template #loading>
-      <b-card no-body>
-        <b-card-img src="./static/blank_box.jpg" style="height: 8rem" />
-        <b-card-body>
-          <b-skeleton width="50%" />
-          <b-skeleton class="mt-3" width="30%" />
-          <b-skeleton class="mt-2" width="30%" />
-        </b-card-body>
-        <b-card-footer v-if="!noFooter">
-          <div
-            class="d-flex flex-row align-items-center justify-content-between"
-          >
-            <b-skeleton width="20%" />
-            <b-skeleton width="20%" />
-          </div>
-        </b-card-footer>
-      </b-card>
+      <b-skeleton width="40%"/>
+      <b-skeleton width="50%"/>
     </template>
+    <template #content>
 
-    <b-card no-body>
-      <div class="position-relative">
-        <b-card-img-lazy
-          :src="game.game.image"
-          blank-src="./static/blank_box.jpg"
-          blank-height="8rem"
-          class="img-cover"
-          style="height: 8rem; border-bottom-left-radius: 0; border-bottom-right-radius: 0"
+      <div v-if="isAdmin()">
+        <metadata-item class="text-muted" :text="game.owner.name" icon="briefcase-fill"/>
+        <metadata-item
+            v-bind:class="{ 'text-danger': !game.location, 'text-muted': game.location }"
+            :text="game.location ? game.location.name : 'Not available'"
+            icon="geo-fill"
         />
-        <div
-          v-if="selectable"
-          class="position-absolute"
-          style="
-            top: 0;
-            border-radius: 5px 0 5px 0;
-            background-color: rgba(1, 1, 1, 0.5);
-          "
-        >
-          <b-checkbox v-model="gameSelected" class="ml-3 mr-1 my-2" size="lg" />
-        </div>
-                <div v-if="isAdmin()" class="position-absolute" style="top:0; right: 0;">
+        <metadata-item
+            class="text-warning"
+            v-if="game.status === 'not-available'"
+            :text="`${game.current_withdraw.requisitor.name} (${playingTime(new Date(game.current_withdraw.date_withdrawn))})`" icon="person-fill"/>
+        <div class="mt-3">
+          <div v-if="!isBulkEnabled" class="w-100 d-flex flex-row">
+            <div class="flex-grow-1">
+              <b-button v-if="game.status === 'not-available'"
+                        block
+                        size="sm"
+                        variant="white"
+                        @click="returnGame(game)">
+                Return
+              </b-button>
+              <b-button v-if="game.status === 'not-checked-in'"
+                        block
+                        size="sm"
+                        variant="white"
+                        @click="$emit('check-in', game)"
+              >
+                Check-in
+              </b-button>
+              <b-button
+                  v-if="game.status === 'available'"
+                  :to="{ name: 'WithdrawGame', params: { id: game.id } }" block size="sm"
+                  variant="light">
+                Withdraw
+              </b-button>
 
-          <b-dropdown size="lg" right variant="link" toggle-class="text-decoration-none" no-caret>
-            <template #button-content>
-              <b-icon-three-dots-vertical class="text-white mr-n3"
-                                          style="filter: drop-shadow( 1px 1px 3px rgba(0, 0, 0, 1));" font-scale="2"/>
-            </template>
-            <b-dropdown-item @click="$emit('check-in', game)">Change location</b-dropdown-item>
+              <div v-else></div>
+            </div>
+            <div class="ml-1">
+              <b-dropdown dropleft no-caret size="sm" toggle-class="text-decoration-none" variant="light">
+                <template #button-content>
+                  <b-icon-three-dots-vertical font-scale="1"/>
+                </template>
+                <b-dropdown-item @click="$emit('check-in', game)">Change location</b-dropdown-item>
 
-          </b-dropdown>
+              </b-dropdown>
+            </div>
+          </div>
+          <div v-else>
+            <b-button v-if="game.status === 'available'" :pressed.sync="gameSelected" block size="sm"
+                      variant="outline-dark">
+          <span v-if="gameSelected" class="d-flex align-items-center justify-content-center">
+          <b-icon-x-circle class="mr-3" font-scale="0.9"/>
+            Remove selection
+          </span>
+              <span v-else class="d-flex align-items-center justify-content-center">
+          <b-icon-check-circle-fill class="mr-3" font-scale="0.9"/>
+            Select
+          </span>
+            </b-button>
+          </div>
         </div>
       </div>
-      <b-card-body>
-        <span
-          class="font-size text-nowrap overflow-hidden d-block">
-          {{ game.game.name }}
-        </span>
 
-        <div>
-          <slot name="badges"></slot>
-        </div>
-        <div class="mt-3">
-          <div v-if="$store.getters['users/current'].is_staff">
-            <metadata-item :text="game.owner.name" icon="briefcase-fill" />
-            <metadata-item
-              :text="game.location ? game.location.name : 'Not available'"
-              icon="geo-fill"
-            />
-          </div>
+      <div v-else class="flex flex-column">
+        <MetadataItem
+            class="text-muted"
+            :text="num_players(game.game.min_players, game.game.max_players)"
+            icon="person-fill"
+        />
+        <metadata-item
+            class="text-muted"
+            :text="playtime(game.game.min_playtime, game.game.max_playtime)"
+            icon="clock-fill"
+        />
+        <metadata-item v-if="game.status === 'not-checked-in'" icon="exclamation-circle-fill" text="Not available" class="text-danger">
 
-          <div v-else class="flex flex-column">
-            <MetadataItem
-              :text="num_players(game.game.min_players, game.game.max_players)"
-              icon="person-fill"
-            />
-            <metadata-item
-              :text="playtime(game.game.min_playtime, game.game.max_playtime)"
-              icon="clock-fill"
-            />
-          </div>
-        </div>
-      </b-card-body>
-      <b-card-footer v-show="$store.getters['users/current'].is_staff">
-        <slot name="footer">
-          <div
-            class="d-flex flex-row align-items-center justify-content-between"
-          >
-            <span v-if="game.status === 'not-available'" class="text-warning"
-              >{{ game.current_withdraw.requisitor.name }}
-            </span>
-            <span v-if="game.status === 'available'" class="text-success"
-              >Available</span
-            >
-              <div v-if="game.status === 'available'">
-                <b-link
-                  class="d-inline d-md-none"
-                  v-b-tooltip.hover
-                  title="Withdraw"
-                  :to="{ name: 'WithdrawGame', params: { id: game.id } }"
-                >
-                  <b-icon-arrow-up-circle
-                    font-scale="1.5"
-                    class="text-gray-700"
-                  />
-                </b-link>
+        </metadata-item>
+        <metadata-item class="text-warning" v-if="game.status === 'not-available'"
+                       :text="`Playing (${playingTime(new Date(game.current_withdraw.date_withdrawn))})`" icon="person-fill"/>
+      </div>
 
-                <b-button class="d-none d-md-inline" variant="light" size="sm" :to="{ name: 'WithdrawGame', params: { id: game.id } }">
-                  WITHDRAW
-                </b-button>
-              </div>
+    </template>
+  </l-game-card>
 
-              <div v-if="game.status === 'not-checked-in'">
-                <b-link
-                  class="d-inline d-md-none"
-                  v-b-tooltip.hover
-                  title="Check-in"
-                  @click="$emit('check-in', game)"
-                >
-                  <b-icon-patch-plus-fill
-                    font-scale="1.5"
-                    class="text-gray-700"
-                  />
-                </b-link>
-                <b-button
-                  class="d-none d-md-inline"
-                  variant="light"
-                  size="sm"
-                  @click="$emit('check-in', game)"
-                >
-                  CHECK-IN
-                </b-button>
-              </div>
-
-              <div v-if="game.status === 'not-available'">
-                <!-- Small width button -->
-                <b-link
-                  class="d-inline d-md-none"
-                  v-b-tooltip.hover
-                  title="Return"
-                  @click="returnGame(game)"
-                >
-                  <b-icon-arrow-down-circle-fill
-                    font-scale="1.5"
-                    class="text-gray-700"
-                  />
-                </b-link>
-
-                <!-- Medium width + button -->
-                <b-button
-                  class="d-none d-md-inline"
-                  variant="light"
-                  size="sm"
-                  @click="returnGame(game)"
-                >
-                  RETURN
-                </b-button>
-              </div>
-          </div>
-        </slot>
-      </b-card-footer>
-    </b-card>
-  </b-skeleton-wrapper>
 </template>
 
 <script>
@@ -169,6 +101,7 @@ import MetadataItem from '@/components/cards/MetadataItem'
 import withdrawService from "@/services/withdraw.service"
 import libraryService from "@/services/library.service"
 import usersMixin from "@/mixins/users.mixin"
+import LGameCard from "@/components/cards/GameCard"
 
 export default {
   name: 'LibraryHomeGameCard',
@@ -220,10 +153,14 @@ export default {
       default: false,
       type: Boolean,
     },
+    isBulkEnabled: {
+      default: false,
+      type: Boolean
+    }
   },
-    mixins: [gamesMixin, usersMixin],
+  mixins: [gamesMixin, usersMixin],
   components: {
-    MetadataItem,
+    MetadataItem, LGameCard
   },
   computed: {
     gameSelected: {
@@ -239,11 +176,25 @@ export default {
   methods: {
     returnGame(game) {
       withdrawService.returnGame(game.current_withdraw.id).then(() => {
+        this.$toast.success(`Thank you! Place the game on ${game.location.name}`)
         libraryService.fetchGame(game.id).then(() => {
           this.$emit('return')
         })
       })
     },
+    playingTime(date){
+      const now = new Date()
+      const diff = Math.abs(now-date)
+
+      let
+          minutes = Math.floor((diff / (1000 * 60)) % 60),
+          hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
+
+  hours = (hours < 10) ? "0" + hours : hours
+  minutes = (minutes < 10) ? "0" + minutes : minutes
+
+  return hours + ":" + minutes
+    }
   },
 
 }

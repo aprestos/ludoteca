@@ -3,7 +3,6 @@
     :back-to="{ name: 'Home' }"
     pre-title="library"
     title="New game"
-    :breadcrumb="[{text: 'Library', to: {'name': 'LibraryHome'}}, {text: game.game.name},{text: 'Withdraw'}]"
     @submit="onSubmit"
   >
     <template #content>
@@ -60,7 +59,6 @@
         <!-- Notes -->
         <b-form-group description="Optional" label="Notes">
           <b-form-textarea
-              size="lg"
             v-model="form.notes"
             placeholder="Eg. expansion included, missing components"
           ></b-form-textarea>

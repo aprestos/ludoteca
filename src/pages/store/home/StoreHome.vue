@@ -1,8 +1,11 @@
 <template>
   <HomeScreenTemplate :title="title" :pre-title="pretitle">
-    <template #actions><b-button v-if="isAdmin()" variant="primary" :to="{name: 'StoreAddGame'}">Add game</b-button></template>
-    <b-alert class="mb-5" :show="true"><b-icon-patch-exclamation-fill class="mr-3"/> Associates have a discount of 10% on all games</b-alert>
+    <template #actions>
 
+      <b-alert class="mb-0 d-inline-block" v-if="!isAdmin()" variant="warning" :show="true"><b-icon-patch-exclamation-fill/> 10% discount for Associates</b-alert>
+
+      <b-button class="d-inline-block" v-if="isAdmin()" variant="primary" :to="{name: 'StoreAddGame'}">Add game</b-button>
+    </template>
     <Games :loading="loading" :games="games" @update="updateGame" @delete="deleteGame"/>
 
   </HomeScreenTemplate>

@@ -6,7 +6,6 @@
         :value-field="optionValue"
         :text-field="optionText"
         :state="state"
-        size="lg"
     >
       <template #first>
         <b-form-select-option :value="null" disabled

@@ -75,7 +75,7 @@ class WithdrawBaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Withdraw
-        fields = ("id", "requisitor")
+        fields = ("id", "requisitor", "date_withdrawn")
 
 
 class LibraryGameSerializer(serializers.ModelSerializer):

@@ -1,67 +1,37 @@
 <template>
-  <b-skeleton-wrapper :loading="loading">
+  <l-game-card :game_id="game.id" :loading="loading" :title="game.game.name" :image="game.game.image">
     <template #loading>
-      <b-card no-body>
-        <b-card-img src="/static/blank_box.jpg" style="height: 12rem"/>
-        <b-card-body>
-          <b-skeleton width="50%"/>
-          <b-skeleton class="mt-3" width="30%"/>
-          <b-skeleton class="mt-2" width="30%"/>
-        </b-card-body>
-      </b-card>
-    </template>
-
-
-    <b-card no-body>
-      <div class="position-relative">
-        <b-card-img-lazy
-            :src="game.game.image"
-            class="img-cover"
-            blank-src="/static/blank_box.jpg"
-            blank-height="10rem"
-            style="height: 10rem; border-bottom-left-radius: 0; border-bottom-right-radius: 0"
-        />
-        <div v-if="isAdmin()" class="position-absolute" style="top:0; right: 0;">
-
-          <b-dropdown size="lg" right variant="link" toggle-class="text-decoration-none" no-caret>
-            <template #button-content>
-              <b-icon-three-dots-vertical class="text-white mr-n3"
-                                          style="filter: drop-shadow( 1px 1px 3px rgba(0, 0, 0, 1));" font-scale="2"/>
-            </template>
-            <b-dropdown-item v-b-modal="`modal-${game.id}`">Update stock</b-dropdown-item>
-            <b-dropdown-item @click="deleteGame(game.id)">Delete</b-dropdown-item>
-          </b-dropdown>
-        </div>
+      <b-skeleton width="30%"/>
+      <div v-if="isAdmin()">
+        <b-skeleton width="50%"/>
       </div>
+    </template>
+    <template #content>
+      <div v-if="isAdmin()">
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column flex-grow-1">
+                  <span class="font-weight-bold">{{ game.selling_price }} €</span>
+                  <span class="text-muted">{{ game.stock }} available</span>
+                </div>
 
-      <b-card-body>
-        <span class="text-nowrap overflow-hidden d-block">
-          {{ game.game.name }}
-        </span>
-
-        <b-row class="mt-3">
-          <b-col>
-            <div v-if="isAdmin()" >
-              <span class="text-muted">Stock: </span><span class="text-muted font-weight-bold">{{game.stock}}</span>
-            </div>
-            <div v-else>
-          <span v-if="game.is_available" class="small text-success d-block">
-            Available
-          </span>
-          <span v-if="!game.is_available" class="small d-block text-danger"
-          >Sold out</span>
+                <b-dropdown right variant="link" toggle-class="text-decoration-none" no-caret>
+                  <template #button-content>
+                    <b-icon-three-dots-vertical class="text-dark mr-n3" font-scale="1"/>
+                  </template>
+                  <b-dropdown-item v-b-modal="`modal-${game.id}`">Update stock</b-dropdown-item>
+                  <b-dropdown-item @click="deleteGame(game.id)">Delete</b-dropdown-item>
+                </b-dropdown>
               </div>
-            </b-col>
-          <b-col cols="auto">
-            <div class="">
-              <h3 class="text-gray-900 mb-0" style="font-weight: 400">
-                {{ game.selling_price }} €
-              </h3>
             </div>
-          </b-col>
-        </b-row>
-      </b-card-body>
 
+            <div v-else>
+              <span v-if="game.is_available" class="font-weight-bold mb-0" style="font-weight: 400">
+                {{ game.selling_price }} €
+              </span>
+              <span v-if="!game.is_available" class="small d-block text-danger">
+                Sold out
+              </span>
+            </div>
       <b-modal :id="`modal-${game.id}`" :title="game.game.name"
                @ok="updateStock">
         <b-form-group class="max-width-2" label="Current">
@@ -77,17 +47,22 @@
         </b-form-group>
 
       </b-modal>
-    </b-card>
-  </b-skeleton-wrapper>
+    </template>
+
+  </l-game-card>
 </template>
 
 <script>
 import gamesMixin from '@/mixins/games.mixin'
 import usersMixin from '@/mixins/users.mixin'
 import storeService from '@/services/store.service'
+import LGameCard from "@/components/cards/GameCard"
 
 export default {
   name: 'StoreHomePartialGameCard',
+  components: {
+    LGameCard
+  },
   props: {
     loading: {
       default: false,
@@ -152,7 +127,7 @@ export default {
         this.$emit('update', response)
       })
     },
-    deleteGame(game_id){
+    deleteGame(game_id) {
       storeService.deleteGame(game_id).then(() => {
         this.$emit('delete', game_id)
       })

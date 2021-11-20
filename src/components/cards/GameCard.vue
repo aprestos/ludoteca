@@ -1,78 +1,55 @@
 <template>
-  <b-skeleton-wrapper :loading="loading">
-    <template #loading>
-      <b-card no-body>
-        <b-card-img src="./static/blank_box.jpg" style="height: 8rem" />
-        <b-card-body>
-          <b-skeleton width="50%" />
-          <b-skeleton class="mt-3" width="30%" />
-          <b-skeleton class="mt-2" width="30%" />
-        </b-card-body>
-        <b-card-footer v-if="!noFooter">
-          <div
-            class="d-flex flex-row align-items-center justify-content-between"
-          >
-            <b-skeleton width="20%" />
-            <b-skeleton width="20%" />
+  <div class="mb-6 w-100">
+    <b-skeleton-wrapper :loading="loading">
+      <template #loading>
+        <div class="position-relative">
+          <div class="position-relative d-block overflow-hidden rounded shadow"
+               style="width:100%; height: 0; padding-bottom: 100%">
+            <b-img
+                class="w-100 h-100 position-absolute"
+                src="/static/blank_box.jpg"
+                style="top:0; left: 0; object-fit: cover"
+            />
           </div>
-        </b-card-footer>
-      </b-card>
-    </template>
 
-    <b-card no-body>
-      <div class="position-relative">
-        <b-card-img-lazy
-          v-if="!noImage"
-          :src="image"
-          class="img-cover"
-          blank-src="./static/blank_box.jpg"
-          :blank-height="imageHeight"
-          :style="{height: imageHeight}"
+
+          <div class="d-flex flex-column">
+          <span class="mt-3">
+            <b-skeleton width="50%"/>
+          </span>
+            <slot name="loading"></slot>
+          </div>
+        </div>
+
+      </template>
+      <div class="position-relative d-block overflow-hidden rounded shadow"
+           style="width:100%; height: 0; padding-bottom: 100%">
+        <b-img-lazy
+            :src="image"
+            blank-src="/static/blank_box.jpg"
+            class="w-100 h-100 position-absolute opaci"
+            style="top:0; left: 0; object-fit: cover"
         />
-        <div v-if="selectable"
-          class="position-absolute"
-          style="
-            top: 0;
-            border-radius: 5px 0 5px 0;
-            background-color: rgba(1,1, 1, 0.5);
-          "
-        >
-          <b-checkbox v-model="gameSelected" class="ml-3 mr-1 my-2" size="lg" />
-        </div>
       </div>
-      <b-card-body>
-        <span
-          class="font-size text-nowrap overflow-hidden d-block"
-          v-show="title"
-          >{{ title }}</span
-        >
 
-        <div>
-          <slot name="badges"></slot>
-        </div>
-        <div class="mt-3">
-          <slot name="metadata"></slot>
-        </div>
-      </b-card-body>
-      <b-card-footer v-if="!noFooter">
-        <slot name="footer">
-          <div
-            class="d-flex flex-row align-items-center justify-content-between"
-          >
-            <slot name="status"></slot>
-            <slot name="actions"></slot>
-          </div>
-        </slot>
-      </b-card-footer>
-    </b-card>
-  </b-skeleton-wrapper>
+      <div class="d-flex flex-column">
+      <span class="mt-3"
+            style="display: -webkit-box; -webkit-line-clamp:1;-webkit-box-orient: vertical; overflow: hidden; ">
+          {{ title }}
+        </span>
+        <slot name="content"></slot>
+      </div>
+
+    </b-skeleton-wrapper>
+  </div>
 </template>
+
 
 <script>
 import gamesMixin from '@/mixins/games.mixin'
 
 export default {
-  name: 'GameCard',
+  name: 'LGameCard',
   props: {
     loading: {
       default: false,
@@ -111,19 +88,20 @@ export default {
       type: Boolean
     }
   },
-computed: {
-    gameSelected:{
-      get(){
+  computed: {
+    gameSelected: {
+      get() {
         return this.selected
       },
       // eslint-disable-next-line no-unused-vars
-      set(val){
+      set(val) {
         this.$emit('selected-change', this.game_id)
       }
     }
-},
+  },
   mixins: [gamesMixin],
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

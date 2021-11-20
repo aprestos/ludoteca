@@ -15,6 +15,7 @@ from backend.api.serializers import *
 User = get_user_model()
 
 # Serve Vue Application
+
 index_view = never_cache(TemplateView.as_view(template_name="index.html"))
 
 

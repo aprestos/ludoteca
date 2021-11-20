@@ -3,7 +3,6 @@
     <b-form-input
         :state="state"
         placeholder="Select an option"
-        size="lg"
         readonly
         :value="value"
         @input="$emit('input')"/>
