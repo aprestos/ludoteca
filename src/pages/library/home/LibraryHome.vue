@@ -1,24 +1,24 @@
 <template>
-  <HomeScreenTemplate :title="title" :pre-title="pretitle">
+  <HomeScreenTemplate :pre-title="pretitle" :title="title">
     <template #actions>
       <div v-if="isAdmin()">
-          <b-dropdown class="mr-3" no-caret variant="white">
-            <template #button-content>
-              <b-icon-gear />
-            </template>
-            <b-dropdown-item-button v-show="!bulk" @click="bulk = true">
-              Enable God mode
-            </b-dropdown-item-button>
-            <b-dropdown-item-button v-show="bulk" @click="bulk = false">
-              Disable God mode
-            </b-dropdown-item-button>
-          </b-dropdown>
+        <b-dropdown class="mr-3" no-caret variant="white">
+          <template #button-content>
+            <b-icon-gear/>
+          </template>
+          <b-dropdown-item-button v-show="!bulk" @click="bulk = true">
+            Enable God mode
+          </b-dropdown-item-button>
+          <b-dropdown-item-button v-show="bulk" @click="bulk = false">
+            Disable God mode
+          </b-dropdown-item-button>
+        </b-dropdown>
 
-          <b-button :to="{ name: 'AddLibraryGame' }" variant="primary">
-            <b-icon-plus class="mr-2"/>
-            Add game
-          </b-button>
-        </div>
+        <b-button :to="{ name: 'AddLibraryGame' }" variant="primary">
+          <b-icon-plus class="mr-2"/>
+          Add game
+        </b-button>
+      </div>
     </template>
 
     <!-- Search and filters trigger -->
@@ -28,38 +28,57 @@
         <form>
           <div class="input-group input-group-lg input-group-merge">
             <b-form-input
-              v-model="search"
-              class="form-control-prepended"
-              debounce="300"
-              placeholder="Search"
-              type="search"
-            ></b-form-input>
+                v-model="search"
+                class="form-control-appended form-control-prepended"
+                debounce="300"
+                placeholder="Search"
+                type="search"
+            />
             <div class="input-group-prepend">
               <div class="input-group-text">
-                <b-icon-search font-scale="0.8"></b-icon-search>
+                <b-icon-search font-scale="0.8"/>
+              </div>
+            </div>
+                        <div class="input-group-append">
+              <div class="input-group-text">
+                <b-link>
+                <b-icon-x v-if="search" @click="search = ''"/>
+                  </b-link>
               </div>
             </div>
           </div>
         </form>
       </b-col>
 
-      <FiltersButton :filters="filters" collapse-id="filters-collapse" />
+      <FiltersButton :filters="filters" collapse-id="filters-collapse"/>
     </b-row>
 
-    <Filters v-model="filters" collapse-id="filters-collapse">
-      <FilterSelect
+    <Filters
         v-model="filters"
-        id="location"
-        label="Location"
-        :options="$store.getters['library/locations']"
+        collapse-id="filters-collapse"
+        @filter-change="filtersChange">
+      <FilterSelect
+          v-if="isAdmin()"
+          id="location"
+          v-model="filters"
+          :options="$store.getters['library/locations']"
+          label="Location"
       />
       <FilterSelect
-        v-model="filters"
-        id="owner"
-        label="Owner"
-        :options="$store.getters['library/players']"
-        @search="searchPlayers"
+          v-if="isAdmin()"
+          id="owner"
+          v-model="filters"
+          :options="$store.getters['library/players']"
+          label="Owner"
+          @search="searchPlayers"
       />
+      <FilterRadioButton
+          id="status"
+          v-model="filters"
+          label="Status"
+          :options="[{ text: 'Available', value: 'available' },
+                     { text: 'Playing', value: 'not-available' },
+                     { text: 'Not checked-in', value: 'not-checked-in' }]"/>
     </Filters>
 
     <!-- Content -->
@@ -67,42 +86,42 @@
       <b-row>
         <!-- Games list -->
         <b-col
-          v-for="(game, index) in games"
-          :key="index"
-          cols="6"
-          sm="4"
-          md="3"
-          lg="2"
-          class="d-flex"
+            v-for="(game, index) in games"
+            :key="index"
+            class="d-flex"
+            cols="6"
+            lg="2"
+            md="3"
+            sm="4"
         >
           <Game
               :game="game"
+              :is-bulk-enabled="bulk"
               :loading="loading"
               :selectable="isGameSelectable(game)"
               :selected="selected.includes(game.id)"
-              :is-bulk-enabled="bulk"
+              @return="refreshGames"
               @selected-change="updateSelected"
               @check-in="openLocationModal"
-              @return="refreshGames"
           >
           </Game>
         </b-col>
       </b-row>
 
       <CheckinModal
-        id="checkin-modal"
-        :game="selectedGame"
-        :shelves="$store.getters['library/locations']"
-        @done="updateGame($event)"
+          id="checkin-modal"
+          :game="selectedGame"
+          :shelves="$store.getters['library/locations']"
+          @done="updateGame($event)"
       />
     </div>
 
-    <Pagination v-model="currentPage" :total-count="totalGamesCount" />
+    <Pagination v-model="currentPage" :total-count="totalGamesCount"/>
 
     <div
-      class="list-alert alert alert-dark alert-dismissible border fade"
-      role="alert"
-      v-bind:class="{ show: bulk }"
+        class="list-alert alert alert-dark alert-dismissible border fade"
+        role="alert"
+        v-bind:class="{ show: bulk }"
     >
       <!-- Content -->
       <div class="row align-items-center">
@@ -110,57 +129,57 @@
           <!-- Checkbox -->
           <div class="custom-control custom-checkbox">
             <input
-              id="listAlertCheckbox"
-              checked=""
-              class="custom-control-input"
-              disabled=""
-              type="checkbox"
+                id="listAlertCheckbox"
+                checked=""
+                class="custom-control-input"
+                disabled=""
+                type="checkbox"
             />
             <label
-              class="custom-control-label text-white"
-              for="listAlertCheckbox"
-              ><span class="list-alert-count">{{ selected.length }}</span>
+                class="custom-control-label text-white"
+                for="listAlertCheckbox"
+            ><span class="list-alert-count">{{ selected.length }}</span>
               game(s)</label
             >
           </div>
         </div>
         <div class="col-auto mr-n3">
           <!-- Button -->
-<!--          <b-button-->
-<!--            v-if="games.length > selected.length"-->
-<!--            class="btn-white-20"-->
-<!--            size="sm"-->
-<!--            @click="selectAll"-->
-<!--          >-->
-<!--            Select all-->
-<!--          </b-button>-->
-<!--          <b-button-->
-<!--            v-else-->
-<!--            class="btn-outline-white"-->
-<!--            size="sm"-->
-<!--            @click="unselectAll"-->
-<!--          >-->
-<!--            Unselect all-->
-<!--          </b-button>-->
+          <!--          <b-button-->
+          <!--            v-if="games.length > selected.length"-->
+          <!--            class="btn-white-20"-->
+          <!--            size="sm"-->
+          <!--            @click="selectAll"-->
+          <!--          >-->
+          <!--            Select all-->
+          <!--          </b-button>-->
+          <!--          <b-button-->
+          <!--            v-else-->
+          <!--            class="btn-outline-white"-->
+          <!--            size="sm"-->
+          <!--            @click="unselectAll"-->
+          <!--          >-->
+          <!--            Unselect all-->
+          <!--          </b-button>-->
           <b-dropdown
-            :disabled="selected.length === 0"
-            class="ml-3"
-            dropup
-            no-caret
-            size="sm"
-            variant="white-20"
+              :disabled="selected.length === 0"
+              class="ml-3"
+              dropup
+              no-caret
+              size="sm"
+              variant="white-20"
           >
             <template #button-content>
               <div class="d-flex flex-row align-items-center">
                 Actions
                 <b-icon-caret-up-fill
-                  class="ml-2"
-                  font-scale="0.8"
+                    class="ml-2"
+                    font-scale="0.8"
                 ></b-icon-caret-up-fill>
               </div>
             </template>
             <b-dropdown-item-button @click="checkoutGames"
-              >Check-out
+            >Check-out
             </b-dropdown-item-button>
           </b-dropdown>
         </div>
@@ -169,10 +188,10 @@
 
       <!-- Close -->
       <button
-        aria-label="Close"
-        class="list-alert-close close"
-        type="button"
-        @click="bulk = false"
+          aria-label="Close"
+          class="list-alert-close close"
+          type="button"
+          @click="bulk = false"
       >
         <span aria-hidden="true">×</span>
       </button>
@@ -191,11 +210,12 @@ import CheckinModal from '@/components/CheckinModal'
 import usersMixin from '@/mixins/users.mixin'
 import axiosUtils from '@/mixins/axios.utils'
 import Pagination from '@/components/Pagination'
-import Filters from '@/components/Filters'
-import FiltersButton from '@/components/FiltersButton'
-import FilterSelect from '@/components/FilterSelect'
+import Filters from '@/components/filters/Filters'
+import FiltersButton from '@/components/filters/FiltersButton'
+import FilterSelect from '@/components/filters/FilterSelect'
 import HomeScreenTemplate from "@/components/templates/HomeScreenTemplate"
 import Game from "./partials/Game"
+import FilterRadioButton from "@/components/filters/FilterRadioButton"
 
 export default {
   name: 'Home',
@@ -204,8 +224,8 @@ export default {
     return {
       search: '',
       games: new Array(60).fill({
-        game: { name: '', image: '' },
-        owner: { name: '' },
+        game: {name: '', image: ''},
+        owner: {name: ''},
         id: 0
       }),
       loading: true,
@@ -219,16 +239,17 @@ export default {
       filters: new Filters.Model(),
       availability_options: [],
       status_options: [
-        { value: 'available', text: 'Available' },
-        { value: 'not-available', text: 'Withdrawn' },
-        { value: 'not-checked-in', text: 'Not checked-in' },
-        { value: 'checked-out', text: 'Checked-out' },
+        {value: 'available', text: 'Available'},
+        {value: 'not-available', text: 'Withdrawn'},
+        {value: 'not-checked-in', text: 'Not checked-in'},
+        {value: 'checked-out', text: 'Checked-out'},
       ],
       currentPage: 1,
       totalGamesCount: 0,
     }
   },
   components: {
+    FilterRadioButton,
     HomeScreenTemplate,
     FiltersButton,
     Pagination,
@@ -245,7 +266,7 @@ export default {
   methods: {
     selectAll() {
       const availableGames = this.games.filter((game) =>
-        this.isGameSelectable(game),
+          this.isGameSelectable(game),
       )
 
       availableGames.forEach((game) => this.updateSelected(game.id))
@@ -271,29 +292,29 @@ export default {
     },
     checkoutGames() {
       const isOwnerLeiriaCon = this.games.filter(
-        (game) =>
-          game.owner.name === 'leiriacon' && this.selected.includes(game.id),
+          (game) =>
+              game.owner.name === 'leiriacon' && this.selected.includes(game.id),
       ).length
 
       if (isOwnerLeiriaCon) {
         this.$bvModal
-          .msgBoxConfirm(
-            "The selected games will be removed from the library. Do you want to continue?",
-            {
-              title: 'Are you sure?',
-              okVariant: 'danger',
-              okTitle: 'Yes',
-              cancelTitle: 'No',
-            },
-          )
-          .then((confirmed) => {
-            if (confirmed) {
-              this.deleteCheckedOutGames()
-            }
-          })
-          .catch((error) =>
-            this.$toast.error('Error checking-out game(s): ' + error),
-          )
+            .msgBoxConfirm(
+                "The selected games will be removed from the library. Do you want to continue?",
+                {
+                  title: 'Are you sure?',
+                  okVariant: 'danger',
+                  okTitle: 'Yes',
+                  cancelTitle: 'No',
+                },
+            )
+            .then((confirmed) => {
+              if (confirmed) {
+                this.deleteCheckedOutGames()
+              }
+            })
+            .catch((error) =>
+                this.$toast.error('Error checking-out game(s): ' + error),
+            )
       } else {
         this.deleteCheckedOutGames()
       }
@@ -302,20 +323,20 @@ export default {
       let promises = this.selected.map((id) => libraryService.deleteGame(id))
 
       Promise.all(promises)
-        .then(() => {
-          this.$toast.success(`Checked-out ${promises.length} game(s)!`)
-        })
-        .catch((response) => {
-          this.$toast.error(
-            'Error checking-out game(s): ' +
-              axiosUtils.getErrorDescription(response),
-          )
-        })
-        .finally(() => {
-          this.bulk = false
-          this.unselectAll()
-          this.refreshGames()
-        })
+          .then(() => {
+            this.$toast.success(`Checked-out ${promises.length} game(s)!`)
+          })
+          .catch((response) => {
+            this.$toast.error(
+                'Error checking-out game(s): ' +
+                axiosUtils.getErrorDescription(response),
+            )
+          })
+          .finally(() => {
+            this.bulk = false
+            this.unselectAll()
+            this.refreshGames()
+          })
     },
     getParams() {
       let params = {}
@@ -327,7 +348,7 @@ export default {
       }
 
       Object.keys(this.filters.filtersSelected).forEach(
-        (key) => (params[key] = this.filters.filtersSelected[key]),
+          (key) => (params[key] = this.filters.filtersSelected[key]),
       )
 
       return params
@@ -346,12 +367,15 @@ export default {
     isGameSelectable(game) {
       return this.bulk && game.status === 'available'
     },
-    updateGame(game){
+    updateGame(game) {
       if (game) {
         const outdatedGameObject = this.games.filter((item) => item.id === game.id)[0]
         this.$set(this.games, this.games.indexOf(outdatedGameObject), game)
       }
     },
+    filtersChange(filters) {
+      this.filters = filters
+    }
   },
 
   watch: {

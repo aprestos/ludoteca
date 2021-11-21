@@ -132,7 +132,6 @@ export default {
   methods: {
     enableSupplierForm(e) {
       //this.form.name = this.search
-      console.log('teste')
       e.preventDefault()
       this.isNewSupplier = true
     },

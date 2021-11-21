@@ -1,23 +1,22 @@
 <template>
-  <b-col lg="6" sm="12">
-    <b-form-group :label="label">
+  <filter-item :label="label">
       <FormSelect
           v-model="filtersModel.filtersSelected[id]"
           :options="options"
           option-text="name"
           option-value="id"
       />
-    </b-form-group>
-  </b-col>
+  </filter-item>
 </template>
 
 <script>
 import FormSelect from '@/components/FormSelect'
-import Filters from '@/components/Filters'
+import Filters from '@/components/filters/Filters'
+import FilterItem from "@/components/filters/FilterItem"
 
 export default {
   name: 'FilterSelect',
-  components: {FormSelect},
+  components: {FormSelect, FilterItem},
   props: {
     value: {
       type: Filters.Model,

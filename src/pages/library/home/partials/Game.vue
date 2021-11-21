@@ -1,6 +1,6 @@
 <template>
   <l-game-card :image="game.game.image" :loading="loading" :selected="selected" :title="game.game.name"
-               game_id="game.id">
+               :game_id="game.id">
 
     <template #loading>
       <b-skeleton width="40%"/>

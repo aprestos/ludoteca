@@ -1,16 +1,16 @@
 <template>
   <!-- Filters -->
-  <b-row v-if="isAuthenticated()">
+  <b-row>
     <b-col>
       <b-collapse :id="collapseId" class="">
-        <div class="bg-light rounded p-4">
+        <div class="bg-primary-soft rounded p-4">
           <b-row>
 
             <slot></slot>
 
             <div class="d-flex w-100 flex-row justify-content-end">
               <b-link class="text-gray-800" @click="clearFilters">
-                <b-icon-x></b-icon-x>
+                <b-icon-x/>
                 CLEAR FILTERS
               </b-link>
             </div>
@@ -49,8 +49,8 @@ export default {
   },
   methods: {
     clearFilters() {
-      this.filtersModel.filtersSelected = {}
-      this.$emit('input', this.filtersModel)
+      this.filtersModel.clear()
+      this.$emit('filter-change', this.filtersModel)
     },
   },
   Model: FiltersModel
@@ -61,7 +61,11 @@ function FiltersModel() {
 }
 
 FiltersModel.prototype.count = function() {
-  return Object.keys(this.filtersSelected).length
+  return Object.values(this.filtersSelected).filter(value => !!value).length
+}
+
+FiltersModel.prototype.clear = function() {
+  this.filtersSelected = {}
 }
 
 </script>

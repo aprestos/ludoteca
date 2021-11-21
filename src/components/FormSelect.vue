@@ -8,7 +8,7 @@
         :state="state"
     >
       <template #first>
-        <b-form-select-option :value="null" disabled
+        <b-form-select-option value="" disabled
         >Select an option
         </b-form-select-option
         >

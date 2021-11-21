@@ -1,23 +1,25 @@
 <template>
-  <b-row class="mt-3">
-    <b-col v-for="(column, index) in columns" v-bind:key="index">
+
+  <div class="d-flex-row">
+    <div class="d-flex flex-row" v-for="(row, index) in rows" v-bind:key="index">
       <div
-        v-for="(row, index) in rows"
+        v-for="(column, index) in columns"
         v-bind:key="index"
         :class="{
           'bg-light': !isLocationCell(column, row),
           'bg-success': isLocationCell(column, row),
         }"
-        class="my-2 shelf"
+        class="m-1 flex-grow-1 shelf"
+        style="flex-basis: 0"
       >
         <span
           v-if="isLocationCell(column, row)"
-          class="text-white font-size-lg"
-          ><b-icon-geo-fill/> {{ location }}</span
+          class="text-white"
+          ><b-icon-geo-fill class="d-sm-inline d-none"/> {{ location }}</span
         >
       </div>
-    </b-col>
-  </b-row>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -74,7 +76,7 @@ export default {
 <style scoped>
 .shelf {
   border-radius: 5px;
-  height: 4vh;
+  height: 5vh;
   display: flex;
   align-items: center;
   justify-content: center;

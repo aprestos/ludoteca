@@ -1,6 +1,6 @@
 <template>
   <!-- Filters trigger -->
-  <b-col v-if="isAuthenticated()" cols="auto">
+  <b-col cols="auto">
     <b-button
       v-b-toggle:[collapseId]
       :pressed.sync="filtersOpen"
@@ -10,9 +10,9 @@
       data-toggle="dropdown"
       size="lg"
     >
-      <b-icon-filter></b-icon-filter>
+      <b-icon-filter/>
       Filters
-      <b-badge v-show="filters.count() > 0" class="ml-1">{{
+      <b-badge v-show="showFiltersBadge" class="ml-1">{{
         filters.count()
       }}</b-badge>
     </b-button>
@@ -40,5 +40,10 @@ export default {
       filtersOpen: false,
     }
   },
+  computed:{
+    showFiltersBadge(){
+      return this.filters.count() > 0
+    }
+  }
 }
 </script>

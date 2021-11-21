@@ -31,7 +31,7 @@ class LibraryGameFilter(filters.FilterSet):
         model = LibraryGame
         fields = ["owner", "location"]
 
-    def filter_status(self, queryset, name, value):
+    def filter_status(self, queryset, _, value):
         if value == "not-checked-in":
             queryset = queryset.filter(date_checkin__isnull=True)
         elif value == "available":
