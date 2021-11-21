@@ -179,7 +179,7 @@
               </div>
             </template>
             <b-dropdown-item-button @click="checkoutGames"
-            >Check-out
+            >Remove game(s)
             </b-dropdown-item-button>
           </b-dropdown>
         </div>

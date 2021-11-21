@@ -57,11 +57,11 @@
             </div>
           </div>
           <div v-else>
-            <b-button v-if="game.status === 'available'" :pressed.sync="gameSelected" block size="sm"
+            <b-button v-if="game.status !== 'not-available'" :pressed.sync="gameSelected" block size="sm"
                       variant="outline-dark">
           <span v-if="gameSelected" class="d-flex align-items-center justify-content-center">
           <b-icon-x-circle class="mr-3" font-scale="0.9"/>
-            Remove selection
+            Undo selection
           </span>
               <span v-else class="d-flex align-items-center justify-content-center">
           <b-icon-check-circle-fill class="mr-3" font-scale="0.9"/>
@@ -83,7 +83,9 @@
             :text="playtime(game.game.min_playtime, game.game.max_playtime)"
             icon="clock-fill"
         />
-        <metadata-item v-if="game.status === 'not-checked-in'" icon="exclamation-circle-fill" text="Not available" class="text-danger">
+        <metadata-item
+            v-if="game.status === 'not-checked-in'"
+            icon="exclamation-circle-fill" text="Not available" class="text-danger">
 
         </metadata-item>
         <metadata-item class="text-warning" v-if="game.status === 'not-available'"
