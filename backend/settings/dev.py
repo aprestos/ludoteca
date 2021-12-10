@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "phonenumber_field",
     "django_rest_passwordreset",
+    "drf_yasg",
     "backend.api.apps.ApiConfig",
 ]
 

@@ -1,5 +1,10 @@
 <template>
-
+<div class="position-relative">
+  <div class="position-absolute top left right h-100 w-100 bg-success-soft d-flex align-items-center justify-content-center"
+       v-if="location.type === 'room'"
+       style="opacity: 50%">
+    <h1 class="">{{ location.name }}</h1>
+  </div>
   <div class="d-flex-row">
     <div class="d-flex flex-row" v-for="(row, index) in rows" v-bind:key="index">
       <div
@@ -15,10 +20,11 @@
         <span
           v-if="isLocationCell(column, row)"
           class="text-white"
-          ><b-icon-geo-fill class="d-sm-inline d-none"/> {{ location }}</span
+          ><b-icon-geo-fill class="d-sm-inline d-none"/> {{ location.name }}</span
         >
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -27,8 +33,7 @@ export default {
   name: 'LocationShelves',
   props: {
     location: {
-      type: String,
-      default: '',
+      type: Object
     },
   },
   computed: {
@@ -67,7 +72,7 @@ export default {
   },
   methods: {
     isLocationCell(column, row) {
-      return column + row === this.location
+      return column + row === this.location.name
     },
   },
 }

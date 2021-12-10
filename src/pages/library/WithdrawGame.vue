@@ -21,7 +21,7 @@
         </ModalPlayerSelect>
 
         <b-form-group class="mt-5" label="Location">
-          <LocationShelves :location="game.location.name" />
+          <LocationShelves :location="game.location" />
         </b-form-group>
 
       </b-form>

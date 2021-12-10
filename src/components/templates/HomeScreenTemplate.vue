@@ -1,7 +1,7 @@
 <template>
   <div>
     <TopNav></TopNav>
-    <b-container fluid="sm">
+    <b-container fluid="xl">
       <Header :pretitle="preTitle" :title="title">
         <template v-slot:content-right>
           <slot name="actions"></slot>

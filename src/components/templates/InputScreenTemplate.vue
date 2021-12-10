@@ -9,7 +9,6 @@
         </b-col>
         <b-col>
           <div class="d-flex flex-column">
-<!--            <b-breadcrumb :items="breadcrumb"/>-->
             <h6 class="header-pretitle">{{preTitle}}</h6>
             <h1 class="header-title mb-2">
             {{ title }}

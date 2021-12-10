@@ -10,6 +10,7 @@ import Configurations from "@/pages/admin/Configurations"
 import authorizationService from '@/services/authorization.service'
 import PageNotFound from '@/pages/PageNotFound'
 import LibraryHome from "@/pages/library/home/LibraryHome"
+import Dashboard from "@/pages/dashboard/home"
 import StoreHome from "@/pages/store/home/StoreHome"
 import StoreAddGame from "@/pages/store/new/NewGame"
 
@@ -30,6 +31,12 @@ const routes = [
     name: 'Home',
     component: LibraryHome,
     props: { title: 'Library', pretitle: 'leiriacon 2022' },
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    props: { title: 'Dashboard', pretitle: 'leiriacon 2022' },
   },
   {
     path: '/library',

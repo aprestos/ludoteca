@@ -1,6 +1,6 @@
 <template>
   <b-navbar toggleable="md">
-    <b-container>
+    <b-container fluid="xl">
       <b-navbar-brand :to="{ name: 'LibraryHome' }">
         <img src="@/assets/leiriacon.png"/>
       </b-navbar-brand>
@@ -30,10 +30,11 @@
               v-if="isAuthenticated()"
               :text="$store.getters['users/current'].name"
               right
-              toggle-class="pl-0"
+              toggle-class="py-0 d-flex"
           >
-            <b-dropdown-item :to="{name: 'Configurations'}">Configurations</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item v-if="isAdmin()" :to="{name: 'Dashboard'}">Dashboard</b-dropdown-item>
+            <b-dropdown-item v-if="isAdmin()" :to="{name: 'Configurations'}">Configurations</b-dropdown-item>
+            <b-dropdown-divider v-if="isAdmin()"></b-dropdown-divider>
             <b-dropdown-item-button @click="logout"
             >Logout
             </b-dropdown-item-button

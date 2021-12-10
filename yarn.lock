@@ -878,6 +878,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.13.10":
+  version "7.16.3"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.3.tgz#b86f0db02a04187a3c17caa77de69840165d42d5"
+  integrity sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.0.0", "@babel/template@^7.15.4":
   version "7.15.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.15.4.tgz#51898d35dcf3faa670c4ee6afcfd517ee139f194"
@@ -6968,6 +6975,16 @@ uuid@^3.3.2, uuid@^3.4.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
+v-tooltip@^2.1.2:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/v-tooltip/-/v-tooltip-2.1.3.tgz#281c2015d1e73787f13c8956aa295b8c3a73f261"
+  integrity sha512-xXngyxLQTOx/yUEy50thb8te7Qo4XU6h4LZB6cvEfVd9mnysUxLEoYwGWDdqR+l69liKsy3IPkdYff3J1gAJ5w==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    lodash "^4.17.21"
+    popper.js "^1.16.1"
+    vue-resize "^1.0.1"
+
 v8-compile-cache@^2.0.3:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
@@ -7044,6 +7061,13 @@ vue-loader@^16.4.0:
     hash-sum "^2.0.0"
     loader-utils "^2.0.0"
 
+vue-resize@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-resize/-/vue-resize-1.0.1.tgz#c120bed4e09938771d622614f57dbcf58a5147ee"
+  integrity sha512-z5M7lJs0QluJnaoMFTIeGx6dIkYxOwHThlZDeQnWZBizKblb99GSejPnK37ZbNE/rVwDcYcHY+Io+AxdpY952w==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+
 vue-router@^3.x:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.2.tgz#5f55e3f251970e36c3e8d88a7cd2d67a350ade5c"
@@ -7074,6 +7098,22 @@ vue-toastification@^1.x:
   version "1.7.11"
   resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-1.7.11.tgz#3e46157b7361f5005b1a60112bc91f5bd00c66d7"
   integrity sha512-CT/DYttb/VtWDNdhJG0BskLVfveZq5rGOgO/u3qTX+RPQQzX0WSai8VVxxUuvR8UpxfSGPS+JQleR33bo3Vadg==
+
+vue2-timeago@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/vue2-timeago/-/vue2-timeago-2.0.1.tgz#49cda338b69027b8464c73bc38c1e38ebc19cbea"
+  integrity sha512-OmU1ZC9UEhPJO5LGRfB3m1HL19//IAe3A2R0BaIQT/Fz6cBZbHfCTMNQlASHRCBxnSJzVTlWw12o0Li16EXzhQ==
+  dependencies:
+    v-tooltip "^2.1.2"
+    vue2-timeago "2.0.1"
+
+vue2-timeago@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/vue2-timeago/-/vue2-timeago-2.0.4.tgz#1458da113076ef9af9137e44ce057c93fd50a759"
+  integrity sha512-ZmJRnmH9v6LfBpV4XdPW2rzIpUsJbnP/0I9Y7lTiwSADV4YpXvojkU2FqV93c0QiZE14+licQGv35AnPIgknFg==
+  dependencies:
+    v-tooltip "^2.1.2"
+    vue2-timeago "2.0.1"
 
 vue@^2.x:
   version "2.6.14"
