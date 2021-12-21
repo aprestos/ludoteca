@@ -1,9 +1,7 @@
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Count
 from django.dispatch import receiver
@@ -16,7 +14,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class User(AbstractUser):
     email = models.EmailField(_("email address"), unique=True)
-
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
@@ -148,7 +145,7 @@ class Withdraw(models.Model):
     def returned(self):
         return self.date_returned is not None
 
-    returned.boolean = True
+    # returned.boolean = True
 
     def __unicode__(self):
         return self.requisitor.get_full_name()
