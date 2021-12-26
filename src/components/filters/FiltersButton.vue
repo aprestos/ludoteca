@@ -11,7 +11,7 @@
       size="lg"
     >
       <b-icon-filter/>
-      Filters
+      <span class="d-none d-md-inline ml-2">Filters</span>
       <b-badge v-show="showFiltersBadge" class="ml-1">{{
         filters.count()
       }}</b-badge>

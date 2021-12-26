@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="md">
+  <b-navbar sticky toggleable="md">
     <b-container fluid="xl">
       <b-navbar-brand :to="{ name: 'LibraryHome' }">
         <img src="@/assets/leiriacon.png"/>

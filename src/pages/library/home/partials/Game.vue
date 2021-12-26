@@ -1,5 +1,4 @@
 <template>
-
   <l-game-card :image="game.game.image" :loading="loading" :selected="selected" :title="game.game.name"
                :game_id="game.id">
 
@@ -19,7 +18,8 @@
         <metadata-item
             class="text-warning"
             v-if="game.status === 'not-available'"
-            :text="`${game.current_withdraw.requisitor.name} (${playingTime(new Date(game.current_withdraw.date_withdrawn))})`" icon="person-fill"/>
+            :text="`${game.current_withdraw.requisitor.name} (${playingTime(new Date(game.current_withdraw.date_withdrawn))})`"
+            icon="person-fill"/>
         <div class="mt-3">
           <div v-if="!isBulkEnabled" class="w-100 d-flex flex-row">
             <div class="flex-grow-1">
@@ -27,7 +27,7 @@
                         block
                         size="sm"
                         variant="white"
-                        @click="returnGame(game)">
+                        v-b-modal="`${game.id}-return-modal`">
                 Return
               </b-button>
               <b-button v-if="game.status === 'not-checked-in'"
@@ -90,8 +90,15 @@
 
         </metadata-item>
         <metadata-item class="text-warning" v-if="game.status === 'not-available'"
-                       :text="`Playing (${playingTime(new Date(game.current_withdraw.date_withdrawn))})`" icon="person-fill"/>
+                       :text="`Playing (${playingTime(new Date(game.current_withdraw.date_withdrawn))})`"
+                       icon="person-fill"/>
       </div>
+
+      <b-modal :title="game.game.name" ok-title="Return" :ok-only="true" @ok="returnGame(game)" size="lg" :id="`${game.id}-return-modal`">
+        <template #default>
+          <LocationShelves :location="game.location"/>
+        </template>
+      </b-modal>
 
     </template>
   </l-game-card>
@@ -105,6 +112,7 @@ import withdrawService from "@/services/withdraw.service"
 import libraryService from "@/services/library.service"
 import usersMixin from "@/mixins/users.mixin"
 import LGameCard from "@/components/cards/GameCard"
+import LocationShelves from "@/components/location/LocationShelves"
 
 export default {
   name: 'LibraryHomeGameCard',
@@ -163,6 +171,7 @@ export default {
   },
   mixins: [gamesMixin, usersMixin],
   components: {
+    LocationShelves,
     MetadataItem, LGameCard
   },
   computed: {
@@ -179,24 +188,24 @@ export default {
   methods: {
     returnGame(game) {
       withdrawService.returnGame(game.current_withdraw.id).then(() => {
-        this.$toast.success(`Thank you! Place the game on ${game.location.name}`)
+        this.$toast.success(`Done`)
         libraryService.fetchGame(game.id).then(() => {
           this.$emit('return')
         })
       })
     },
-    playingTime(date){
+    playingTime(date) {
       const now = new Date()
-      const diff = Math.abs(now-date)
+      const diff = Math.abs(now - date)
 
       let
           minutes = Math.floor((diff / (1000 * 60)) % 60),
           hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
 
-  hours = (hours < 10) ? "0" + hours : hours
-  minutes = (minutes < 10) ? "0" + minutes : minutes
+      hours = (hours < 10) ? "0" + hours : hours
+      minutes = (minutes < 10) ? "0" + minutes : minutes
 
-  return hours + ":" + minutes
+      return hours + ":" + minutes
     }
   },
 
