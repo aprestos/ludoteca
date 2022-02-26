@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-from backend.api.models import BggGame, Badge, Location
+from backend.api.models import BggGame, Badge, Location, LibraryGame
 
 User = get_user_model()
 
@@ -23,6 +23,14 @@ class BggGameAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Badge)
+
+
+@admin.register(LibraryGame)
+class LibraryGameAdmin(admin.ModelAdmin):
+    list_display = (
+        "game",
+        "owner",
+    )
 
 
 @admin.register(Location)

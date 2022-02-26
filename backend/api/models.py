@@ -91,7 +91,10 @@ class Game(models.Model):
         abstract = True
 
     def __unicode__(self):
-        return u"%s" % self.name
+        return u"%s" % self.game.name
+
+    def __str__(self):
+        return self.game.name
 
 
 class LibraryGame(Game):
@@ -149,10 +152,10 @@ class Withdraw(models.Model):
     returned.boolean = True
 
     def __unicode__(self):
-        return u"%s with %s" % (self.game.name, self.requisitor.name)
+        return self.requisitor.get_full_name()
 
     def __str__(self):
-        return u"%s with %s" % (self.game.name, self.requisitor.name)
+        return self.requisitor.get_full_name()
 
     @staticmethod
     def last(days):

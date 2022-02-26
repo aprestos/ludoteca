@@ -43,14 +43,14 @@
           label="Location"
         >
           <b-form-input
-            v-model="form.location"
-            :state="validateState('location')"
+            v-model="form.location_id"
+            :state="validateState('location_id')"
             hidden
           />
           <FormSelect
-            v-model="form.location"
+            v-model="form.location_id"
             :options="$store.getters['library/locations']"
-            :state="validateState('location')"
+            :state="validateState('location_id')"
             option-text="name"
             option-value="id"
           />
@@ -98,7 +98,7 @@ export default {
       game: this.initGame(),
       games: [],
       form: {
-        location: '',
+        location_id: '',
         owner_id: '',
         notes: '',
         game_id: '',
@@ -158,7 +158,7 @@ export default {
       owner_id: {
         required,
       },
-      location: {
+      location_id: {
         required,
       },
     },
