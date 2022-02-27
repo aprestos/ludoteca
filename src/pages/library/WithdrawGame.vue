@@ -13,6 +13,10 @@
             @select="$bvModal.show('player-select')"/>
         </b-form-group>
 
+      <b-alert v-if="game.notes" variant="dark" show>
+        <b-icon-info-circle-fill class="mr-3" />
+      {{game.notes}}
+      </b-alert>
         <ModalPlayerSelect
           id="player-select"
           title="Players"

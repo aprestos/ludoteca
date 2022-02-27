@@ -41,6 +41,7 @@
             class="max-width-2-md"
           invalid-feedback="This field is required"
           label="Location"
+            description="Optional"
         >
           <b-form-input
             v-model="form.location_id"
@@ -98,7 +99,7 @@ export default {
       game: this.initGame(),
       games: [],
       form: {
-        location_id: '',
+        location_id: undefined,
         owner_id: '',
         notes: '',
         game_id: '',
@@ -159,7 +160,6 @@ export default {
         required,
       },
       location_id: {
-        required,
       },
     },
   },
