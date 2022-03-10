@@ -29,7 +29,6 @@ export default {
       hideCurrencySymbolOnFocus: true,
       hideGroupingSeparatorOnFocus: true,
       hideNegligibleDecimalDigitsOnFocus: true,
-      exportValueAsInteger: true,
       precision: 2,
       currencyDisplay: 'hidden'
     })

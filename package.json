@@ -19,7 +19,7 @@
     "js-cookie": "^3.0.1",
     "node-sass": "^6.0.1",
     "vue": "^2.x",
-    "vue-currency-input": "^2.1.0",
+    "vue-currency-input": "^2.4.0",
     "vue-router": "^3.x",
     "vue-toastification": "^1.x",
     "vue2-timeago": "2.0.4",
