@@ -88,7 +88,7 @@ class Game(models.Model):
         abstract = True
 
     def __unicode__(self):
-        return u"%s" % self.game.name
+        return "%s" % self.game.name
 
     def __str__(self):
         return self.game.name
@@ -119,7 +119,7 @@ class LibraryGame(Game):
         if self.location:
             self.date_checkin = timezone.now()
 
-        super(LibraryGame, self).save()
+        super().save()
 
 
 class UsedGame(Game):
