@@ -134,7 +134,6 @@ class StoreGameSerializer(serializers.ModelSerializer):
             "supplier",
             "supplier_id",
             "selling_price",
-            "buying_price",
             "stock",
         )
         extra_kwargs = {

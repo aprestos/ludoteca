@@ -36,12 +36,8 @@
           id="supplier-select-modal"
           @selected="assignSupplier"/>
 
-        <b-form-group class="max-width-2-md" invalid-feedback="Invalid amount" label="Selling price">
+        <b-form-group class="max-width-2-md" invalid-feedback="Invalid amount" label="Price">
           <l-form-input-currency :state="validateState('selling_price')" v-model="form.selling_price"/>
-        </b-form-group>
-
-        <b-form-group class="max-width-2-md" label="Buying price" invalid-feedback="Invalid amount">
-          <l-form-input-currency :state="validateState('buying_price')" v-model="form.buying_price"/>
         </b-form-group>
 
       <b-form-group label="Stock" class="max-width-2-md" invalid-feedback="Invalid number">
@@ -121,9 +117,6 @@ export default {
         required,
       },
       supplier_id: {
-        required,
-      },
-      buying_price: {
         required,
       },
       selling_price: {
