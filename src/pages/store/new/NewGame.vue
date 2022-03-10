@@ -16,25 +16,25 @@
             @game-selected="assignGame"
         ></ModalGameSelect>
 
-      <b-form-group class="max-width-3-md" invalid-feedback="No supplier selected" label="Supplier">
-        <b-input-group>
-          <b-form-input :state="validateState('supplier_id')"  placeholder="Select an option" readonly v-model="supplier.name"/>
-          <b-input-group-append>
-            <b-button v-b-modal:supplier-select-modal variant="outline-secondary"
-            ><i class="fe fe-search mr-2"/>Search
-            </b-button>
-          </b-input-group-append>
-        </b-input-group>
-        <b-form-input
-            v-model="form.supplier_id"
-            :state="validateState('supplier_id')"
-            hidden
-        />
-      </b-form-group>
+<!--      <b-form-group class="max-width-3-md" invalid-feedback="No supplier selected" label="Supplier">-->
+<!--        <b-input-group>-->
+<!--          <b-form-input :state="validateState('supplier_id')"  placeholder="Select an option" readonly v-model="supplier.name"/>-->
+<!--          <b-input-group-append>-->
+<!--            <b-button v-b-modal:supplier-select-modal variant="outline-secondary"-->
+<!--            ><i class="fe fe-search mr-2"/>Search-->
+<!--            </b-button>-->
+<!--          </b-input-group-append>-->
+<!--        </b-input-group>-->
+<!--        <b-form-input-->
+<!--            v-model="form.supplier_id"-->
+<!--            :state="validateState('supplier_id')"-->
+<!--            hidden-->
+<!--        />-->
+<!--      </b-form-group>-->
 
-      <ModalSupplierSelect
-          id="supplier-select-modal"
-          @selected="assignSupplier"/>
+<!--      <ModalSupplierSelect-->
+<!--          id="supplier-select-modal"-->
+<!--          @selected="assignSupplier"/>-->
 
         <b-form-group class="max-width-2-md" invalid-feedback="Invalid amount" label="Price">
           <l-form-input-currency :state="validateState('selling_price')" v-model="form.selling_price"/>
@@ -50,7 +50,6 @@
 <script>
 import InputScreenTemplate from '@/components/templates/InputScreenTemplate'
 import ModalGameSelect from '@/components/ModalGameSelect'
-import ModalSupplierSelect from '@/components/ModalSupplierSelect'
 import gamesMixin from '@/mixins/games.mixin'
 import formMixin from '@/mixins/form.mixins'
 import bggService from '@/services/bgg.service'
@@ -62,7 +61,7 @@ import LFormSelect from "@/components/form/LFormSelect"
 
 export default {
   name: 'NewGame',
-  components: {LFormSelect, InputScreenTemplate, ModalGameSelect, ModalSupplierSelect, LFormInputCurrency},
+  components: {LFormSelect, InputScreenTemplate, ModalGameSelect, LFormInputCurrency},
   mixins: [gamesMixin, formMixin, axiosMixin],
   data() {
     return {
@@ -114,9 +113,6 @@ export default {
   validations: {
     form: {
       game_id: {
-        required,
-      },
-      supplier_id: {
         required,
       },
       selling_price: {

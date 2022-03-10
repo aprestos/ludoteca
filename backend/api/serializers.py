@@ -2,14 +2,14 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from .models import (
-    LibraryGame,
-    BggGame,
-    Withdraw,
     Badge,
-    Location,
-    Supplier,
-    StoreGame,
+    BggGame,
     Configuration,
+    LibraryGame,
+    Location,
+    StoreGame,
+    Supplier,
+    Withdraw,
 )
 
 User = get_user_model()
@@ -47,7 +47,7 @@ class PlayerSerializer(serializers.HyperlinkedModelSerializer):
         }
 
     def get_name(self, obj: User):
-        return " ".join(filter(None, [obj.first_name, obj.last_name]))
+        return obj.get_full_name()
 
 
 class BggGameSerializer(serializers.ModelSerializer):
@@ -114,16 +114,16 @@ class LibraryGameSerializer(serializers.ModelSerializer):
 
 
 class StoreGameSerializer(serializers.ModelSerializer):
-    supplier = SupplierSerializer(read_only=True)
+    # supplier = SupplierSerializer(read_only=True)
     game = BggGameSerializer(read_only=True)
 
     game_id = serializers.IntegerField(write_only=True, required=True)
-    supplier_id = serializers.PrimaryKeyRelatedField(
-        queryset=Supplier.objects.all(),
-        source="supplier",
-        required=True,
-        write_only=True,
-    )
+    # supplier_id = serializers.PrimaryKeyRelatedField(
+    #     queryset=Supplier.objects.all(),
+    #     source="supplier",
+    #     required=True,
+    #     write_only=True,
+    # )
 
     class Meta:
         model = StoreGame
@@ -131,8 +131,8 @@ class StoreGameSerializer(serializers.ModelSerializer):
             "id",
             "game",
             "game_id",
-            "supplier",
-            "supplier_id",
+            # "supplier",
+            # "supplier_id",
             "selling_price",
             "stock",
         )
