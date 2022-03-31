@@ -17,7 +17,7 @@
     "bootstrap-vue": "^2.x",
     "feather-icons": "^4.28.0",
     "js-cookie": "^3.0.1",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "vue": "^2.x",
     "vue-currency-input": "^2.4.0",
     "vue-progressive-image": "^3.2.0",
