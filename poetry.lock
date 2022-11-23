@@ -63,6 +63,14 @@ requests-cache = ">=0.4.4"
 test = ["pytest", "pytest-mock"]
 
 [[package]]
+name = "cachetools"
+version = "5.2.0"
+description = "Extensible memoizing collections and decorators"
+category = "main"
+optional = false
+python-versions = "~=3.7"
+
+[[package]]
 name = "certifi"
 version = "2022.9.24"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -184,6 +192,18 @@ description = "Best way to have Django DRY forms"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "django-db-settings"
+version = "1.2.1"
+description = "A Django app to save app settings in DB as classes."
+category = "main"
+optional = false
+python-versions = ">3"
+
+[package.dependencies]
+cachetools = "*"
+django = "*"
 
 [[package]]
 name = "django-environ"
@@ -804,7 +824,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.10.8"
-content-hash = "9da6c6e5c949749f48f4dadffabd051b95d24b507c7dadbbebee1191e6b13100"
+content-hash = "735ce670b8949f3e271c6df9023a11e340abd87137c949654d665c56767b75bc"
 
 [metadata.files]
 asgiref = [
@@ -822,6 +842,10 @@ black = [
 boardgamegeek2 = [
     {file = "boardgamegeek2-1.0.1-py2.py3-none-any.whl", hash = "sha256:381cb02f04e87ffeb4338ada4a106223cfa2f83199f905dce28839bc19911a83"},
     {file = "boardgamegeek2-1.0.1.tar.gz", hash = "sha256:c679749358935fc705e3e1c92f9a429f432a1494ed6fd4eb549de2ab51fb071a"},
+]
+cachetools = [
+    {file = "cachetools-5.2.0-py3-none-any.whl", hash = "sha256:f9f17d2aec496a9aa6b76f53e3b614c965223c061982d434d160f930c698a9db"},
+    {file = "cachetools-5.2.0.tar.gz", hash = "sha256:6a94c6402995a99c3970cc7e4884bb60b4a8639938157eeed436098bf9831757"},
 ]
 certifi = [
     {file = "certifi-2022.9.24-py3-none-any.whl", hash = "sha256:90c1a32f1d68f940488354e36370f6cca89f0f106db09518524c88d6ed83f382"},
@@ -870,6 +894,10 @@ django = [
 django-crispy-forms = [
     {file = "django-crispy-forms-1.14.0.tar.gz", hash = "sha256:35887b8851a931374dd697207a8f56c57a9c5cb9dbf0b9fa54314da5666cea5b"},
     {file = "django_crispy_forms-1.14.0-py3-none-any.whl", hash = "sha256:bc4d2037f6de602d39c0bc452ac3029d1f5d65e88458872cc4dbc01c3a400604"},
+]
+django-db-settings = [
+    {file = "django-db-settings-1.2.1.tar.gz", hash = "sha256:b3e5e4f114388e1f937c3740e9550d520b6a8a147f124d53ceae147797a8928f"},
+    {file = "django_db_settings-1.2.1-py3-none-any.whl", hash = "sha256:a20f756ec30d5796bfd790e87b31e9bf6c295bcf024a64d9f5972acc334e552d"},
 ]
 django-environ = [
     {file = "django-environ-0.9.0.tar.gz", hash = "sha256:bff5381533056328c9ac02f71790bd5bf1cea81b1beeb648f28b81c9e83e0a21"},

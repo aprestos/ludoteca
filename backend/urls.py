@@ -63,6 +63,7 @@ urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("api/dashboard/", statistics.StatisticsViewSet.as_view(), name="dashboard"),
+    path("settings/", include("settings.urls")),
     path(
         "api/password_reset/",
         include("django_rest_passwordreset.urls", namespace="password_reset"),
