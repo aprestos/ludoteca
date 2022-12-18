@@ -2,7 +2,7 @@
 <div class="main-content">
 
   <!-- HEADER -->
-  <div class="pt-3 pb-8 bg-hero bg-ellipses">
+  <div class="pt-3 pb-8 bg-dark bg-ellipses">
     <div class="container-fluid">
       <div class="mb-5 ml-5">
 
@@ -31,6 +31,7 @@
     </div>
   </div>
 
+  {{tickets}}
   <!-- CONTENT -->
   <div class="container">
     <div class="row mt-n7 justify-content-center" v-show="!loading">
@@ -51,7 +52,7 @@
                 <div class="h2 mb-0">€</div>
               </div>
               <div class="col-auto">
-                <div class="display-2 mb-0">{{ formatPrice(ticket.price) }}</div>
+                <div class="display-2 mb-0">5</div>
               </div>
               <div class="d-flex align-self-start justify-content-start">
                 <s class="align-self-start h1 text-muted mt-1">10</s>
@@ -66,34 +67,37 @@
             <!-- Features -->
             <div class="mb-3">
               <ul class="list-group list-group-flush">
-                <li
-                    v-for="(perk, index) in ticket.perks"
-                    class="list-group-item d-flex align-items-center justify-content-between px-0"
-                    v-bind:key="index"
-                >
+                <li class="list-group-item d-flex align-items-center justify-content-between px-0">
                   <div>
-                    <small>{{ perk.text }}</small>
-                    <b-link v-if="perk.tooltip" v-b-tooltip:hover class="ml-2 text-info" title="Only for buyer">
-                      <b-icon-info-circle-fill/>
-                    </b-link>
+                    <small>Personalized Badge</small>
+                    <b-link v-b-tooltip:hover class="ml-2 text-info" title="Only for buyer"><b-icon-info-circle-fill/></b-link>
                   </div>
-                  <i v-if="perk.value==='true'" class="fe fe-check-circle text-success"></i>
-                  <small v-else>{{ perk.value }}</small>
+                  <i class="fe fe-check-circle text-success"></i>
+                </li>
+                <li class="list-group-item d-flex align-items-center justify-content-between px-0">
+                  <small>Full access</small> <i class="fe fe-check-circle text-success"></i>
+                </li>
+                <li class="list-group-item d-flex align-items-center justify-content-between px-0">
+                  <small>4-days</small> <i class="fe fe-check-circle text-success"></i>
+                </li>
+                <li class="list-group-item d-flex align-items-center justify-content-between px-0">
+                  <small>Additional tickets</small> <small>3</small>
                 </li>
               </ul>
             </div>
 
-            <b-button v-if="new Date(ticket.validFrom) > new Date() && !isStaff()" variant="light" block disabled>
-              Coming December 5th
-            </b-button>
-            <b-button v-else-if="!isAuthenticated()" :to="{name: 'Login'}" variant="primary" block>
-              Login
-            </b-button>
-            <b-alert v-else-if="ticket.type === 'membership' && !isAssociate() && !isStaff()" show variant="light"><b-icon-award-fill/> Member exclusive. See how to become one <b-link target="_blank" href="https://www.spielportugal.org/membership">here</b-link></b-alert>
-            <b-alert v-else-if="hasPreviousOrders && !isStaff()" show variant="warning"><b-icon-exclamation-circle-fill/> Only one purchase per account is allowed</b-alert>
-            <b-button v-else :to="{name: 'BuyTickets', params: { 'ticket': ticket } }" variant="primary"  block>
-              Buy
-            </b-button>
+            <!-- Button -->
+<!--            <b-button v-if="tickets.length===0" variant="light" block disabled>-->
+<!--              Coming soon-->
+<!--            </b-button>-->
+<!--            <b-button v-else-if="!isAuthenticated()" :to="{name: 'Login'}" variant="primary" block>-->
+<!--              Login-->
+<!--            </b-button>-->
+<!--            <b-alert v-else-if="!isAssociate() && !isStaff()" show variant="light"><b-icon-award-fill/> Member exclusive. See how to become one <b-link target="_blank" href="https://www.spielportugal.org/membership">here</b-link></b-alert>-->
+<!--            <b-alert v-else-if="this.hasPreviousOrders && !isStaff()" show variant="warning"><b-icon-exclamation-circle-fill/> One purchase per Member</b-alert>-->
+<!--            <b-button v-else :to="{name: 'BuyTickets'}" variant="primary" block>-->
+<!--              Buy-->
+<!--            </b-button>-->
           </div>
         </div>
 
@@ -167,16 +171,9 @@ import Modal from "./partials/Modal.vue"
 import usersMixin from "@/mixins/users.mixin"
 import orderService from "@/services/order.service"
 import ticketService from "@/services/ticket.service"
-import {formatPrice} from "@/utils/number.utils"
 
 export default {
-  name: "Buy",
-  methods: {
-    formatPrice: formatPrice,
-    test(ticket){
-      return new Date(ticket.validFrom) > new Date()
-    }
-  },
+  name: "Overview_",
   components: {Modal},
   mixins: [usersMixin],
   data(){
@@ -186,7 +183,7 @@ export default {
       loading: true
     }
   },
-  created() {
+  mounted() {
     ticketService.fetchTickets().then((response)=> {
       this.tickets = response
     }).finally(()=> this.loading = false)

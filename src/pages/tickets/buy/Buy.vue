@@ -11,7 +11,7 @@
 >
   <template #content>
     <div v-if="currentStepNumber === 1">
-      <Step1></Step1>
+      <Step1 :ticket="$route.params.ticket"></Step1>
     </div>
     <div v-if="currentStepNumber === 2">
       <Step2 :value="names" @input="onStep2Input"></Step2>
@@ -41,6 +41,7 @@ let steps = {
 export default {
   name: "Buy",
   components: {Step3, Step2, Step1, Wizard },
+  props: ['ticket'],
   data(){
     return {
       currentStepNumber: 1,
@@ -53,14 +54,14 @@ export default {
     }
   },
   mounted() {
-    ticketService.fetchValidTickets().then((data)=> this.tickets = data)
+    ticketService.fetchTickets().then((data)=> this.tickets = data)
   },
   methods: {
     nextStep(){
       if(this.currentStepNumber === 1){
         this.buyer_ticket = {
           name: this.$store.getters["users/current"].name,
-          ticket: this.tickets.filter(ticket => ticket.type === "membership")[0]
+          ticket: this.$route.params.ticket
         }
       } else if(this.currentStepNumber === 2) {
         this.additional_tickets = []

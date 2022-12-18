@@ -7,6 +7,7 @@ from django.template.loader import get_template
 from django_rest_passwordreset.signals import reset_password_token_created
 from dotenv import find_dotenv, load_dotenv
 
+from backend.api.models import PaymentMethod
 from backend.api.utils import environment
 
 load_dotenv(find_dotenv())  # loads the configs from .env
@@ -16,6 +17,8 @@ load_dotenv(find_dotenv())  # loads the configs from .env
 user_created = Signal()
 
 new_order = Signal()
+
+payment_confirmed = Signal()
 
 
 def extract_reset_token_data(data):
@@ -101,6 +104,10 @@ def send_new_order_email(sender, instance, order, *args, **kwargs):
         "user": serializers.serialize("json", [order.user]),
         "order_number": order.id,
         "order_total": order.total / 100,
+        "payment_methods": [
+            {"name": method.name, "value": method.value}
+            for method in PaymentMethod.objects.all()
+        ],
         "products": [
             {
                 "name": product.name,
@@ -114,6 +121,34 @@ def send_new_order_email(sender, instance, order, *args, **kwargs):
     send_mail(
         order.user.email,
         context=context,
-        subject=f"{environment.get_app_name()} tickets",
+        subject=f"{environment.get_app_name()} - Order confirmation",
         template="email/order-summary.html",
+    )
+
+
+@receiver(payment_confirmed)
+def send_payment_confirmation(sender, instance, order, *args, **kwargs):
+    context = {
+        "logo_url": environment.get_logo_url(),
+        "name": environment.get_app_name(),
+        "user": serializers.serialize("json", [order.user]),
+        "order_number": order.id,
+        "order_total": order.total / 100,
+        "products": [
+            {
+                "name": product.name,
+                "type": product.ticket.name,
+                "value": product.value / 100,
+            }
+            for product in order.products.all()
+        ],
+    }
+
+    # send an e-mail to the user
+    logging.info("Received payment_confirmed signal")
+    send_mail(
+        order.user.email,
+        context,
+        subject=f"{environment.get_app_name()} - Payment confirmation",
+        template="email/receipt.html",
     )

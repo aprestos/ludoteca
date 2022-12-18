@@ -148,7 +148,7 @@ export default {
           this.$toast.success('Saved')
           this.$router.push({ name: 'Home' })
         })
-        .catch(response => console.log(response))
+        .catch(() => this.$toast.error("Oups, something went wrong. Please try again later."))
     },
   },
   validations: {

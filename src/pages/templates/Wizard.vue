@@ -110,7 +110,7 @@ export default {
   props: {
     title: String,
     description: String,
-    currentStep: Object,
+    currentStep: Number,
     numberOfSteps: Number,
     loading: {
       type: Boolean,

@@ -43,7 +43,9 @@ class OrderSerializer(serializers.ModelSerializer):
         if not self.context["request"].user.is_staff:
             orders = Order.objects.filter(user__id=validated_data.get("user").id)
             if len(orders) > 1:
-                raise django.core.exceptions.PermissionDenied
+                raise django.core.exceptions.PermissionDenied(
+                    "This user already bought tickets"
+                )
 
             for product in products:
                 if product.get("ticket", Ticket()).type == Ticket.TYPE_MEMBERSHIP:

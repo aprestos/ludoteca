@@ -1,63 +1,65 @@
 <template>
-    <b-container fluid class="px-0">
-      <b-navbar sticky  toggleable="md" class="px-3 px-xl-5">
-        <b-navbar-brand :to="{ name: 'LibraryHome' }" class="mr-3">
-          <img src="@/assets/leiriacon_new.png"/>
-        </b-navbar-brand>
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-light" id="topnav">
+      <div class="container">
+        <!-- Toggler -->
+        <b-navbar-toggle class="navbar-toggler me-auto collapsed" target="nav-collapse"/>
 
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <!-- Brand -->
+        <b-link :to="{'name': 'Home'}" class="navbar-brand me-auto">
+          <img src="@/assets/leiriacon_new.png" alt="..." class="navbar-brand-img">
+        </b-link>
 
-        <b-collapse id="nav-collapse" class="w-100" is-nav>
+
+        <!-- User -->
+        <div class="navbar-user">
+          <!-- Dropdown -->
+          <div class="dropdown" v-if="isAuthenticated()">
+
+            <!-- Toggle -->
+            <a  href="#" class="avatar avatar-sm dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <b-avatar :text="initials($store.getters['users/current'].name)" variant="dark"/>
+            </a>
+
+            <!-- Menu -->
+            <div class="dropdown-menu dropdown-menu-right">
+              <div class="dropdown-item-text d-flex justify-content-between row" v-if="isAssociate()">
+                <span class="text-dark ml-3">Quotas</span>
+                <Quotas class="mr-3" :quotas="$store.getters['users/current'].quotas"/>
+              </div>
+              <hr v-if="isAssociate()" class="dropdown-divider"/>
+              <b-link v-if="isStaff()" :to="{'name': 'Dashboard'}" class="dropdown-item">Dashboard</b-link>
+              <b-link v-if="isAdmin()" :to="{'name': 'Configurations'}" class="dropdown-item">Configurations</b-link>
+              <hr v-if="isStaff() || isAdmin()" class="dropdown-divider">
+              <b-link @click="logout" class="dropdown-item">Logout</b-link>
+            </div>
+          </div>
+          <b-link v-if="!isAuthenticated()" :to="{'name': 'Login'}">Sign in</b-link>
+        </div>
+
+        <!-- Collapse -->
+        <b-collapse id="nav-collapse" class="navbar-collapse me-lg-auto order-lg-first collapse">
+          <!-- Navigation -->
           <b-navbar-nav>
             <b-nav-item :to="{ name: 'LibraryHome' }" active-class="active">
               Library
             </b-nav-item>
-            <b-nav-item v-if="hasPermission(game_permissions.Store.View)" :to="{ name: 'StoreHome' }" active-class="active">
+            <b-nav-item v-if="hasPermission(game_permissions.Store.View)" :to="{ 'name': 'StoreHome' }" active-class="active">
               Store
             </b-nav-item>
-            <b-nav-item v-if="hasPermission(user_permissions.Add)" :to="{ name: 'PlayersHome' }" active-class="active">
+            <b-nav-item v-if="hasPermission(user_permissions.Add)" :to="{ 'name': 'PlayersHome' }" active-class="active">
               Players
             </b-nav-item>
             <b-nav-item :to="{ name: 'Tickets' }" active-class="active">
               Tickets
             </b-nav-item>
           </b-navbar-nav>
-
-          <!-- Right aligned nav items -->
-          <b-navbar-nav class="ml-auto">
-            <b-button
-                v-if="!isAuthenticated()"
-                :to="{ name: 'Login' }"
-                variant="link"
-            >Sign in
-            </b-button
-            >
-            <b-nav-item-dropdown
-                class=""
-                v-if="isAuthenticated()"
-                :text="$store.getters['users/current'].name"
-                right
-                toggle-class="py-0 pl-0 pt-1 d-flex"
-            >
-              <b-dropdown-text v-if="isAssociate()" class="font-weight-normal" style="width: 240px;">
-                <div class="d-flex justify-content-between">
-                  <span>Quotas</span>
-                  <Quotas :quotas="$store.getters['users/current'].quotas"/>
-                </div>
-              </b-dropdown-text>
-              <b-dropdown-divider v-if="isAssociate()"></b-dropdown-divider>
-              <b-dropdown-item v-if="isStaff()" :to="{name: 'Dashboard'}">Dashboard</b-dropdown-item>
-              <b-dropdown-item v-if="isAdmin()" :to="{name: 'Configurations'}">Configurations</b-dropdown-item>
-              <b-dropdown-divider v-if="isStaff() || isAdmin()"></b-dropdown-divider>
-              <b-dropdown-item-button @click="logout"
-              >Logout
-              </b-dropdown-item-button
-              >
-            </b-nav-item-dropdown>
-          </b-navbar-nav>
         </b-collapse>
-      </b-navbar>
-    </b-container>
+
+      </div> <!-- / .container -->
+    </nav>
+
+    </div>
 </template>
 <script>
 import usersMixin from '@/mixins/users.mixin'
@@ -65,12 +67,12 @@ import authorizationService from '@/services/authorization.service'
 import {GamePermissions, UserPermissions} from '@/enums/permissions.enum'
 import {max} from "@/utils/number.utils"
 import Quotas from "@/components/user/Quotas.vue"
-//import UserInfo from "@/partials/UserInfo";
+import personMixin from "@/mixins/person.mixin"
 
 export default {
   name: 'TopNav',
   components: {Quotas},
-  mixins: [usersMixin],
+  mixins: [usersMixin, personMixin],
   data(){
     return {
       game_permissions: GamePermissions,

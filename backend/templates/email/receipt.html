@@ -1,19 +1,19 @@
 {% extends "email/base.html" %}
 
-{% block description %}Thanks for your order{% endblock %}
+{% block description %}Your order is paid{% endblock %}
 
 {% block content %}
 
     <p class="sm-leading-32 dark-mode-text-white" style="margin: 0; margin-bottom: 36px; font-family: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif; font-size: 24px; font-weight: 600; color: #000000;">
-      Thanks for your order.
+      Your order is paid. Hurray 🎉
     </p>
     <p style="margin: 0; margin-bottom: 24px;">
-      This email is a receipt for your order number 12345. You do not need to make any further payment in relation to this order.
+      This email is a receipt for your order number {{ order_number }}. You do not need to make any further payment in relation to this order.
     </p>
     <p style="margin: 0; margin-bottom: 24px;">
-      Order #12345
+      Order #{{order_number}}
       <br>
-      Status: Shipped
+      Status: Completed
     </p>
     <table style="margin-bottom: 32px; width: 100%;" cellpadding="0" cellspacing="0" role="presentation">
 
@@ -24,39 +24,27 @@
       <tbody>
       {% for product in products %}
         <tr>
-          <td>{{product.type}}</td>
-          <td>€{{product.value}}</td>
+         <td>{{ product.type }} - {{ product.name }}</td>
+          <td>{{ product.value | floatformat }}€</td>
         </tr>
         {% endfor %}
-        <tr>
-          <td>Product #1</td>
-          <td>£1.00</td>
-        </tr>
-        <tr>
-          <td>Product #2</td>
-          <td>£2.00</td>
-        </tr>
-        <tr>
-          <td>Product #3</td>
-          <td>£3.00</td>
-        </tr>
       </tbody>
     </table>
-    <a href="https://example.com" class="hover-bg-blue-600" style="display: inline-block; background-color: #3b82f6; padding-left: 24px; padding-right: 24px; padding-top: 16px; padding-bottom: 16px; text-align: center; font-size: 16px; font-weight: 600; text-transform: uppercase; color: #ffffff; text-decoration: none;">
-      <!--[if mso
-        ]><i
-          style="
-            letter-spacing: 24px;
-            mso-font-width: -100%;
-            mso-text-raise: 30px;
-          "
-          >&#8202;</i><!
-      [endif]-->
-      <span style="mso-text-raise: 16px">View Order Details</span>
-      <!--[if mso
-        ]><i style="letter-spacing: 24px; mso-font-width: -100%">&#8202;</i><!
-      [endif]-->
-    </a>
+<!--    <a href="https://example.com" class="hover-bg-blue-600" style="display: inline-block; background-color: #3b82f6; padding-left: 24px; padding-right: 24px; padding-top: 16px; padding-bottom: 16px; text-align: center; font-size: 16px; font-weight: 600; text-transform: uppercase; color: #ffffff; text-decoration: none;">-->
+<!--      &lt;!&ndash;[if mso-->
+<!--        ]><i-->
+<!--          style="-->
+<!--            letter-spacing: 24px;-->
+<!--            mso-font-width: -100%;-->
+<!--            mso-text-raise: 30px;-->
+<!--          "-->
+<!--          >&#8202;</i><!-->
+<!--      [endif]&ndash;&gt;-->
+<!--&lt;!&ndash;      <span style="mso-text-raise: 16px">View Order Details</span>&ndash;&gt;-->
+<!--      &lt;!&ndash;[if mso-->
+<!--        ]><i style="letter-spacing: 24px; mso-font-width: -100%">&#8202;</i><!-->
+<!--      [endif]&ndash;&gt;-->
+<!--    </a>-->
     <table style="width: 100%;" cellpadding="0" cellspacing="0" role="presentation">
       <tr>
         <td style="padding-top: 32px; padding-bottom: 32px;">
@@ -64,11 +52,11 @@
         </td>
       </tr>
     </table>
-    <p style="margin: 0; margin-bottom: 16px; color: #6b7280;">
-      Want a full VAT invoice for your records? <a href="https://example.com" style="color: #6b7280;">Download PDF invoice</a>
+    <p class="sm-leading-32 dark-mode-text-white" style="margin: 0; margin-bottom: 18px; font-size: 18px; font-weight: 600; color: #000000;">
+      Just a small note about the vouchers 🎟️
     </p>
-    <p style="margin: 0; margin-bottom: 16px; color: #6b7280;">
-      This order will appear as "COMPANY X" on your statement from your payment provider. Click <a href="https://example.com" style="color: #6b7280;">here</a> to update your delivery or payment details.
+    <p style="margin: 0; margin-bottom: 24px;">
+      They will be sent later, before the event starts.
     </p>
 
 {% endblock %}

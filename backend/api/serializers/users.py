@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 from rest_framework import serializers
 
 from backend.api.models import Quota, Ticket
+from backend.api.serializers.perk import PerkSerializer
 
 User: TypeAlias = get_user_model()
 
@@ -78,6 +79,8 @@ class PlayerSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class TicketSerializer(serializers.ModelSerializer):
+    perks = PerkSerializer(many=True)
+
     class Meta:
         model = Ticket
         fields = "__all__"

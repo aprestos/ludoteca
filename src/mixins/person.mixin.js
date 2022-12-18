@@ -1,6 +1,8 @@
 export default {
   methods: {
-    initials: function(name) {
+    initials: function (name) {
+      if (!name) return ''
+
       let names = name.split(' '),
         initials = names[0].substring(0, 1).toUpperCase()
 
