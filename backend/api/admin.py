@@ -9,6 +9,7 @@ from backend.api.models import (
     Badge,
     BggGame,
     Event,
+    ExternalLink,
     LibraryGame,
     Location,
     Order,
@@ -25,6 +26,11 @@ from backend.api.signals import payment_confirmed
 User = get_user_model()
 
 admin.site.register(User, UserAdmin)
+
+
+@admin.register(ExternalLink)
+class LibraryGameAdmin(admin.ModelAdmin):
+    search_fields = ["text", "url"]
 
 
 @admin.register(PaymentMethod)
