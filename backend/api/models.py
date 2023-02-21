@@ -13,6 +13,12 @@ class ExternalLink(models.Model):
     text = models.CharField(max_length=20)
     url = models.URLField()
 
+    def __str__(self):
+        return self.text
+
+    def __unicode__(self):
+        return self.text
+
 
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=100)

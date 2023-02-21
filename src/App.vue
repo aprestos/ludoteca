@@ -14,6 +14,7 @@ export default {
   components: {
   },
   created() {
+    this.$store.dispatch("externalLinks/load")
     if (authorizationService.isAuthenticated()) {
       this.$store.dispatch("init")
     }
