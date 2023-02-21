@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.17.0",
-
     "@popperjs/core": "^2.9.1",
     "@vue/composition-api": "^1.2.4",
     "axios": "^1.1.3",

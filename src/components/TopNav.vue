@@ -53,6 +53,12 @@
             <b-nav-item :to="{ name: 'Tickets' }" active-class="active">
               Tickets
             </b-nav-item>
+            <b-nav-item-dropdown v-show="$store.getters['externalLinks/all'].length" text="Useful links">
+              <b-nav-item
+                  v-for="(link, index) in $store.getters['externalLinks/all']"
+                  v-bind:key="index"
+                  :href="link.url">{{link.text}}</b-nav-item>
+            </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
 

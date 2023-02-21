@@ -9,6 +9,7 @@ import localStorageService from '@/services/localStorage.service'
 import configurations from '@/store/modules/configurations'
 import pagination from '@/store/modules/pagination'
 import store from '@/store/modules/store'
+import externalLinks from '@/store/modules/external-links'
 
 Vue.use(Vuex)
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     configurations,
     store,
     pagination,
+    externalLinks,
   },
   actions: {
     /**
@@ -44,7 +46,7 @@ export default new Vuex.Store({
       dispatch('users/loadCurrent')
       dispatch('library/loadLocations')
       dispatch('library/loadPlayers')
-      dispatch('store/loadSuppliers')
+      dispatch('externalLinks/load')
     },
   },
 

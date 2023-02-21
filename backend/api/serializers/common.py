@@ -2,7 +2,13 @@ from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from rest_framework import serializers
 
-from backend.api.models import Event
+from backend.api.models import Event, ExternalLink
+
+
+class ExternalLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExternalLink
+        fields = "__all__"
 
 
 class EventSerializer(serializers.ModelSerializer):

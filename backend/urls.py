@@ -34,6 +34,7 @@ router.register(r"events", common.EventViewSet)
 router.register(r"tickets", users.TicketViewSet)
 router.register(r"orders", orders.OrderViewSet)
 router.register(r"products", orders.ProductViewSet)
+router.register(r"external-links", common.ExternalLinkViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -63,7 +64,6 @@ urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("api/dashboard/", statistics.StatisticsViewSet.as_view(), name="dashboard"),
-    path("settings/", include("settings.urls")),
     path(
         "api/password_reset/",
         include("django_rest_passwordreset.urls", namespace="password_reset"),

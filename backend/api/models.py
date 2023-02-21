@@ -9,6 +9,11 @@ from phonenumber_field.modelfields import PhoneNumberField
 from polymorphic.models import PolymorphicModel
 
 
+class ExternalLink(models.Model):
+    text = models.CharField(max_length=20)
+    url = models.URLField()
+
+
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=100)
     value = models.CharField(max_length=200)
