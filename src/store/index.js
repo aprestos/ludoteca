@@ -46,7 +46,6 @@ export default new Vuex.Store({
       dispatch('users/loadCurrent')
       dispatch('library/loadLocations')
       dispatch('library/loadPlayers')
-      dispatch('externalLinks/load')
     },
   },
 

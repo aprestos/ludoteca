@@ -31,6 +31,10 @@ admin.site.register(User, UserAdmin)
 @admin.register(ExternalLink)
 class LibraryGameAdmin(admin.ModelAdmin):
     search_fields = ["text", "url"]
+    list_display = (
+        "text",
+        "url",
+    )
 
 
 @admin.register(PaymentMethod)
