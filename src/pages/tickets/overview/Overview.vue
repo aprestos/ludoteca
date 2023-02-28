@@ -34,69 +34,67 @@
   <!-- CONTENT -->
   <div class="container">
     <div class="row mt-n7 justify-content-center" v-show="!loading">
-      <div class="col-12 col-lg-6" v-for="(ticket, index) in tickets" v-bind:key="index">
-
+      <div class="col-12 col-lg-6" v-for="(type_tickets, index) in Object.values(tickets)" v-bind:key="index">
         <!-- Card -->
-        <div class="card">
-          <div class="card-body">
+        <div class="card" v-for="(ticket, index) in getValidTickets(type_tickets)" v-bind:key="index">
+        <div class="card-body">
 
-            <!-- Title -->
-            <h6 class="text-uppercase text-center text-muted my-4">
-              {{ ticket.name }}
-            </h6>
+          <!-- Title -->
+          <h6 class="text-uppercase text-center text-muted my-4">
+            {{ ticket.name }}
+          </h6>
 
-            <!-- Price -->
-            <div class="row g-0 align-items-center justify-content-center">
-              <div class="col-auto">
-                <div class="h2 mb-0">€</div>
-              </div>
-              <div class="col-auto">
-                <div class="display-2 mb-0">{{ formatPrice(ticket.price) }}</div>
-              </div>
-              <div class="d-flex align-self-start justify-content-start">
-                <s class="align-self-start h1 text-muted mt-1">10</s>
-              </div>
-            </div> <!-- / .row -->
-
-            <!-- Period -->
-            <div class="h6 text-uppercase text-center text-muted mb-5">
-              / person 12+ years old
+          <!-- Price -->
+          <div class="row g-0 align-items-center justify-content-center">
+            <div class="col-auto">
+              <div class="h2 mb-0">€</div>
             </div>
-
-            <!-- Features -->
-            <div class="mb-3">
-              <ul class="list-group list-group-flush">
-                <li
-                    v-for="(perk, index) in ticket.perks"
-                    class="list-group-item d-flex align-items-center justify-content-between px-0"
-                    v-bind:key="index"
-                >
-                  <div>
-                    <small>{{ perk.text }}</small>
-                    <b-link v-if="perk.tooltip" v-b-tooltip:hover class="ml-2 text-info" title="Only for buyer">
-                      <b-icon-info-circle-fill/>
-                    </b-link>
-                  </div>
-                  <i v-if="perk.value==='true'" class="fe fe-check-circle text-success"></i>
-                  <small v-else>{{ perk.value }}</small>
-                </li>
-              </ul>
+            <div class="col-auto">
+              <div class="display-2 mb-0">{{ formatPrice(ticket.price) }}</div>
             </div>
+            <div class="d-flex align-self-start justify-content-start" v-if="getHigherPrice(type_tickets)>ticket.price">
+              <s class="align-self-start h1 text-muted mt-1">{{ formatPrice(getHigherPrice(type_tickets)) }}</s>
+            </div>
+          </div> <!-- / .row -->
 
-            <b-button v-if="new Date(ticket.validFrom) > new Date() && !isStaff()" variant="light" block disabled>
-              Coming December 5th
-            </b-button>
-            <b-button v-else-if="!isAuthenticated()" :to="{name: 'Login'}" variant="primary" block>
-              Login
-            </b-button>
-            <b-alert v-else-if="ticket.type === 'membership' && !isAssociate() && !isStaff()" show variant="light"><b-icon-award-fill/> Member exclusive. See how to become one <b-link target="_blank" href="https://www.spielportugal.org/membership">here</b-link></b-alert>
-            <b-alert v-else-if="hasPreviousOrders && !isStaff()" show variant="warning"><b-icon-exclamation-circle-fill/> Only one purchase per account is allowed</b-alert>
-            <b-button v-else :to="{name: 'BuyTickets', params: { 'ticket': ticket } }" variant="primary"  block>
-              Buy
-            </b-button>
+          <!-- Period -->
+          <div class="h6 text-uppercase text-center text-muted mb-5">
+            / person 12+ years old
           </div>
-        </div>
 
+          <!-- Features -->
+          <div class="mb-3">
+            <ul class="list-group list-group-flush">
+              <li
+                  v-for="(perk, index) in ticket.perks"
+                  class="list-group-item d-flex align-items-center justify-content-between px-0"
+                  v-bind:key="index"
+              >
+                <div>
+                  <small>{{ perk.text }}</small>
+                  <b-link v-if="perk.tooltip" v-b-tooltip:hover class="ml-2 text-info" title="Only for buyer">
+                    <b-icon-info-circle-fill/>
+                  </b-link>
+                </div>
+                <i v-if="perk.value==='true'" class="fe fe-check-circle text-success"></i>
+                <small v-else>{{ perk.value }}</small>
+              </li>
+            </ul>
+          </div>
+
+          <b-button v-if="new Date(ticket.validFrom) > new Date() && !isStaff()" variant="light" block disabled>
+            Coming December 5th
+          </b-button>
+          <b-button v-else-if="!isAuthenticated()" :to="{name: 'Login'}" variant="primary" block>
+            Login
+          </b-button>
+          <b-alert v-else-if="ticket.type === 'membership' && !isAssociate() && !isStaff()" show variant="light"><b-icon-award-fill/> Member exclusive. See how to become one <b-link target="_blank" href="https://www.spielportugal.org/membership">here</b-link></b-alert>
+          <b-alert v-else-if="hasPreviousOrders && !isStaff()" show variant="warning"><b-icon-exclamation-circle-fill/> Only one purchase per account is allowed</b-alert>
+          <b-button v-else :to="{name: 'BuyTickets', params: { 'ticket': ticket } }" variant="primary"  block>
+            Buy
+          </b-button>
+        </div>
+      </div>
       </div>
     </div> <!-- / .row -->
     <div class="row justify-content-center">
@@ -173,8 +171,19 @@ export default {
   name: "Buy",
   methods: {
     formatPrice: formatPrice,
-    test(ticket){
-      return new Date(ticket.validFrom) > new Date()
+    getValidTickets(tickets){
+      const referenceDate = new Date()
+      return tickets.filter((ticket) => referenceDate < new Date(ticket.validUntil)
+          && referenceDate > new Date(ticket.validFrom))
+    },
+    getHigherPrice(tickets){
+      let higherPrice = 0
+      tickets.forEach((ticket) => {
+        if(ticket.price && ticket.price > higherPrice){
+          higherPrice = ticket.price
+        }
+      })
+      return higherPrice
     }
   },
   components: {Modal},
@@ -182,13 +191,20 @@ export default {
   data(){
     return {
       hasPreviousOrders: false,
-      tickets: [],
+      tickets: {},
       loading: true
     }
   },
   created() {
-    ticketService.fetchTickets().then((response)=> {
-      this.tickets = response
+    ticketService.fetchTickets().then((response) => {
+      response.forEach((ticket) => {
+        console.log(ticket.validUntil)
+        if(!this.tickets[ticket.type]?.length){
+          this.tickets[ticket.type] = []
+        }
+
+        this.tickets[ticket.type].push(ticket)
+      })
     }).finally(()=> this.loading = false)
 
     if(this.isAuthenticated()){
