@@ -10,7 +10,7 @@
           <p class="text-muted mb-0">{{ticket.name}}</p>
       </div>
       <span class="ml-auto" style="font-size: 2rem; font-weight: 200">
-          5€
+          {{formatPrice(ticket.price)}}€
       </span>
     </div>
   </b-card>
@@ -18,9 +18,11 @@
 
 <script>
 import usersMixin from "@/mixins/users.mixin"
+import {formatPrice} from "@/utils/number.utils"
 
 export default {
   name: "step1",
+  methods: {formatPrice},
   mixins: [usersMixin],
   props: ['ticket'],
 }

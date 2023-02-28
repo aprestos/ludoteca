@@ -30,6 +30,7 @@ import Step2 from "@/pages/tickets/buy/partials/Step2.vue"
 import Step3 from "@/pages/tickets/buy/partials/Step3.vue"
 import ticketService from "@/services/ticket.service"
 import orderService from "@/services/order.service"
+import ticketsMixin from "@/mixins/tickets.mixin"
 
 let steps = {
   1: {title: "Let's start", description: "Your ticket is already here for you"},
@@ -41,6 +42,7 @@ let steps = {
 export default {
   name: "Buy",
   components: {Step3, Step2, Step1, Wizard },
+  mixins: [ticketsMixin],
   props: ['ticket'],
   data(){
     return {
@@ -65,7 +67,7 @@ export default {
         }
       } else if(this.currentStepNumber === 2) {
         this.additional_tickets = []
-        const ticket_info = this.tickets.filter(ticket => ticket.type === "standard")[0]
+        const ticket_info = this.getValidTickets(this.tickets).filter(ticket => ticket.type === "standard")[0]
         this.names.filter(Boolean).forEach((name) => this.additional_tickets.push({
           name: name,
           ticket: ticket_info,

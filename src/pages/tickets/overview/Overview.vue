@@ -166,16 +166,12 @@ import usersMixin from "@/mixins/users.mixin"
 import orderService from "@/services/order.service"
 import ticketService from "@/services/ticket.service"
 import {formatPrice} from "@/utils/number.utils"
+import ticketsMixin from "@/mixins/tickets.mixin"
 
 export default {
   name: "Buy",
   methods: {
     formatPrice: formatPrice,
-    getValidTickets(tickets){
-      const referenceDate = new Date()
-      return tickets.filter((ticket) => referenceDate < new Date(ticket.validUntil)
-          && referenceDate > new Date(ticket.validFrom))
-    },
     getHigherPrice(tickets){
       let higherPrice = 0
       tickets.forEach((ticket) => {
@@ -187,7 +183,7 @@ export default {
     }
   },
   components: {Modal},
-  mixins: [usersMixin],
+  mixins: [usersMixin, ticketsMixin],
   data(){
     return {
       hasPreviousOrders: false,
