@@ -1,14 +1,13 @@
 import logging
 
 from django.core import serializers
-from django.core.mail import EmailMessage
 from django.dispatch import Signal, receiver
-from django.template.loader import get_template
 from django_rest_passwordreset.signals import reset_password_token_created
 from dotenv import find_dotenv, load_dotenv
 
 from backend.api.models import PaymentMethod
 from backend.api.utils import environment
+from backend.api.utils.utils import get_base_email_context, send_mail
 
 load_dotenv(find_dotenv())  # loads the configs from .env
 # reading .env file
@@ -23,32 +22,13 @@ payment_confirmed = Signal()
 
 def extract_reset_token_data(data):
     return {
+        **get_base_email_context(),
         "current_user": serializers.serialize("json", [data.user]),
         "user_first_name": data.user.first_name,
         "username": data.user.username,
         "email": data.user.email,
         "reset_password_url": f"{environment.get_reset_password_url()}{data.key}",
-        "logo_url": environment.get_logo_url(),
-        "name": environment.get_app_name(),
-        "app_url": environment.get_app_url(),
     }
-
-
-def send_mail(to: str, context, subject: str, template: str):
-    try:
-        msg = EmailMessage(
-            subject,
-            body=get_template(template).render(context),
-            from_email="info@leiriacon.pt",
-            to=[to],
-            reply_to=["info@spielportugal.org"],
-        )
-        msg.content_subtype = "html"
-        msg.send()
-
-    except Exception as err:
-        logging.error(err)
-        raise err
 
 
 @receiver(reset_password_token_created)

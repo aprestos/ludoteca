@@ -1,11 +1,15 @@
+import logging
 import time
 
 from boardgamegeek import BGGClient
 from boardgamegeek import exceptions as bgg_exceptions
 from django.contrib.auth import get_user_model
+from django.core.mail import EmailMessage
+from django.template.loader import get_template
 from rest_framework.pagination import PageNumberPagination
 
 from backend.api.models import BggGame, LibraryGame
+from backend.api.utils import environment
 
 User = get_user_model()
 
@@ -124,3 +128,28 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size = 30
     page_size_query_param = "page_size"
     max_page_size = 1000
+
+
+def send_mail(to: str, context, subject: str, template: str):
+    try:
+        msg = EmailMessage(
+            subject,
+            body=get_template(template).render(context),
+            from_email="info@leiriacon.pt",
+            to=[to],
+            reply_to=["info@spielportugal.org"],
+        )
+        msg.content_subtype = "html"
+        msg.send()
+
+    except Exception as err:
+        logging.error(err)
+        raise err
+
+
+def get_base_email_context():
+    return {
+        "logo_url": environment.get_logo_url(),
+        "name": environment.get_app_name(),
+        "app_url": environment.get_app_url(),
+    }

@@ -1,0 +1,64 @@
+{% extends "email/base.html" %}
+
+{% block description %}Your tickets are here!{% endblock %}
+
+{% block content %}
+
+    <p class="sm-leading-32 dark-mode-text-white" style="margin: 0; margin-bottom: 36px; font-family: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif; font-size: 24px; font-weight: 600; color: #000000;">
+      🎟️ O'clock!
+    </p>
+    <p style="margin: 0; margin-bottom: 24px;">
+      We are very busy preparing everything for the convention. Loading our games on to the van, filling up the beer machine, assembling the tables but still(!) we found a timeslot to send your tickets :)
+    </p>
+
+<div style="text-align: center">
+    {{ svg|safe }}
+    </div>
+
+    <table style="width: 100%;" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td style="padding-top: 32px; padding-bottom: 32px;">
+          <hr style="border-bottom-width: 0px; border-color: #f3f4f6;">
+        </td>
+      </tr>
+    </table>
+
+
+    {% for ticket in tickets %}
+        <table style="width: 100%;" cellpadding="0" cellspacing="0" role="presentation">
+          <tbody>
+              <tr>
+                  <td><b>#{{ ticket.number }}</b> {{ ticket.name }} - {{ticket.type}}</td>
+              </tr>
+          </tbody>
+        </table>
+      {% endfor %}
+<!--    <a href="https://example.com" class="hover-bg-blue-600" style="display: inline-block; background-color: #3b82f6; padding-left: 24px; padding-right: 24px; padding-top: 16px; padding-bottom: 16px; text-align: center; font-size: 16px; font-weight: 600; text-transform: uppercase; color: #ffffff; text-decoration: none;">-->
+<!--      &lt;!&ndash;[if mso-->
+<!--        ]><i-->
+<!--          style="-->
+<!--            letter-spacing: 24px;-->
+<!--            mso-font-width: -100%;-->
+<!--            mso-text-raise: 30px;-->
+<!--          "-->
+<!--          >&#8202;</i><!-->
+<!--      [endif]&ndash;&gt;-->
+<!--&lt;!&ndash;      <span style="mso-text-raise: 16px">View Order Details</span>&ndash;&gt;-->
+<!--      &lt;!&ndash;[if mso-->
+<!--        ]><i style="letter-spacing: 24px; mso-font-width: -100%">&#8202;</i><!-->
+<!--      [endif]&ndash;&gt;-->
+<!--    </a>-->
+    <table style="width: 100%;" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td style="padding-top: 32px; padding-bottom: 32px;">
+          <hr style="border-bottom-width: 0px; border-color: #f3f4f6;">
+        </td>
+      </tr>
+    </table>
+
+    <p style="margin: 0; margin-bottom: 24px;">
+      Just show it at the convention reception <b>(not the hotel reception)</b> and we will provide you a bracelet so you can enter and enjoy the facilities as you wish.
+    </p>
+    <p style="margin: 0; margin-bottom: 24px;">See you soon.<p>
+
+{% endblock %}

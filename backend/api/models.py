@@ -105,6 +105,7 @@ class Order(models.Model):
     products = models.ManyToManyField(Product)
     total = models.IntegerField(default=0, null=False, blank=False)
     is_payed = models.BooleanField(default=False)
+    is_sent = models.BooleanField(default=False)
 
     def __unicode__(self):
         return f"#{self.id}"
