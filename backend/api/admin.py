@@ -90,10 +90,10 @@ class QuotaAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("id", "user", "total", "is_payed", "is_sent")
+    list_display = ("id", "code", "user", "total", "is_payed", "is_sent")
     readonly_fields = ("user", "products", "total")
     ordering = ("id",)
-    search_fields = ["id", "user__first_name", "user__last_name", "user__email"]
+    search_fields = ["id", "code", "user__first_name", "user__last_name", "user__email"]
 
     def save_model(self, request, obj, form, change):
         res = Order.objects.get(pk=obj.pk)
