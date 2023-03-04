@@ -106,6 +106,7 @@ class Order(models.Model):
     total = models.IntegerField(default=0, null=False, blank=False)
     is_payed = models.BooleanField(default=False)
     is_sent = models.BooleanField(default=False)
+    code = models.CharField(null=True, blank=True, max_length=10)
 
     def __unicode__(self):
         return f"#{self.id}"

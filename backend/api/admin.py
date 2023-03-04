@@ -125,7 +125,8 @@ class ProductAdmin(PolymorphicParentModelAdmin):
 
 @admin.register(ProductTicket)
 class ProductTicketAdmin(PolymorphicChildModelAdmin):
-    list_display = ("name", "get_ticket_type", "get_ticket_price", "get_orders")
+    search_fields = ["id", "name"]
+    list_display = ("id", "name", "get_ticket_type", "get_ticket_price", "get_orders")
     ordering = ("name",)
     show_in_index = True
 

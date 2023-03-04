@@ -4,6 +4,7 @@ from io import BytesIO
 import qrcode
 import qrcode.image.svg
 from django.http import HttpResponse
+from django.utils.crypto import get_random_string
 from rest_framework.views import APIView
 
 from backend.api.models import Order
@@ -17,7 +18,7 @@ class SendTicketsViewSet(APIView):
             body = json.loads(request.body)
 
         if "emails" in body and type(body["emails"]) == list:
-            query = Order.objects.filter(user__email__in=body["emails"])
+            query = Order.objects.filter(user__email__in=body["emails"])[:1]
         else:
             query = Order.objects.filter(is_sent=False).all()[:20]
 
@@ -37,6 +38,12 @@ class SendTicketsViewSet(APIView):
 
                 tickets.append(ticket)
                 context.update({"tickets": tickets})
+
+            if not order.code:
+                code = get_random_string(length=5).upper()
+                order.code = code
+
+            context.update({"code": order.code})
 
             factory = qrcode.image.svg.SvgImage
             img = qrcode.make(
