@@ -146,6 +146,11 @@ const routes = [
     component: Buy,
   },
   {
+    path: '/tickets/user',
+    name: 'UserTickets',
+    component: Buy,
+  },
+  {
     path: '/configurations',
     name: 'Configurations',
     props: { title: 'Configurations', pretitle: 'Admin' },
