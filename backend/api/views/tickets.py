@@ -20,7 +20,7 @@ class SendTicketsViewSet(APIView):
         if "emails" in body and type(body["emails"]) == list:
             query = Order.objects.filter(user__email__in=body["emails"])[:1]
         else:
-            query = Order.objects.filter(is_sent=False).all()[:20]
+            query = Order.objects.filter(is_sent=False, is_payed=True).all()[:20]
 
         for order in query:
             context = get_base_email_context()
