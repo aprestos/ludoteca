@@ -7,13 +7,13 @@
     <p class="sm-leading-32 dark-mode-text-white" style="margin: 0; margin-bottom: 36px; font-family: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif; font-size: 24px; font-weight: 600; color: #000000;">
       🎟️ O'clock!
     </p>
-    <p style="margin: 0; margin-bottom: 24px;">
-      We are very busy preparing everything for the convention. Loading our games on to the van, filling up the beer machine, assembling the tables but still(!) we found a timeslot to send your tickets :)
+    <p style="margin: 0; margin-bottom: 32px;">
+      We are very busy preparing everything for the convention. Loading our games onto the van, filling up the beer machine and assembling the tables but still have found a timeslot to send your tickets :)
     </p>
-    <div style="text-align: center">
-        {{ svg|safe }}
-    </div>
 
+    <div style="text-align: center; margin-bottom: 8px;">
+        <h1 style="margin-top: 64px">{{code}}</h1>
+    </div>
     <table style="width: 100%;" cellpadding="0" cellspacing="0" role="presentation">
       <tr>
         <td style="padding-top: 32px; padding-bottom: 16px;">
@@ -21,9 +21,6 @@
         </td>
       </tr>
     </table>
-    <div style="text-align: center; margin-bottom: 8px">
-        <h2>{{code}}</h2>
-    </div>
     {% for ticket in tickets %}
         <table style="width: 100%;" cellpadding="0" cellspacing="0" role="presentation">
           <tbody>
