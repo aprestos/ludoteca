@@ -19,7 +19,7 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-from backend.api.views import common, games, orders, statistics, tickets, users
+from backend.api.views import common, games, orders, statistics, tasks, tickets, users
 
 router = routers.DefaultRouter()
 router.register(r"library/games", games.LibraryGameViewSet)
@@ -67,6 +67,7 @@ urlpatterns = [
     path(
         "api/send-tickets/", tickets.SendTicketsViewSet.as_view(), name="send-tickets"
     ),
+    path("api/tasks/", tasks.TasksApiView.as_view(), name="tasks"),
     path(
         "api/password_reset/",
         include("django_rest_passwordreset.urls", namespace="password_reset"),
