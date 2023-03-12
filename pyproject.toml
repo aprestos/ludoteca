@@ -29,6 +29,7 @@ python-dotenv = "^0.20.0"
 django-polymorphic = "^3.1.0"
 django-rest-polymorphic = "^0.1.10"
 qrcode = "^7.4.2"
+django-background-tasks = "^1.2.5"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.11.1"

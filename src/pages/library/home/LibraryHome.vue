@@ -39,7 +39,8 @@
         { value: 'game__name', text: 'Name' },
         { value: 'game__year,game__name', text: 'Year' },
         { value: 'num_withdraws', text: 'Requisitions' },
-        { value: 'game__rank', text: 'BGG Rank' },
+        { value: 'game__rank', text: 'Rank' },
+        { value: 'game__weight', text: 'Complexity' },
       ]"
       @filter-change="filtersChange"
     >

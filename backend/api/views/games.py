@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django_filters import rest_framework as django_filters
 from rest_framework import filters, permissions, viewsets
+from rest_framework.filters import OrderingFilter
 from rest_framework_simplejwt import authentication
 
 from backend.api.filters import LibraryGameFilter, StoreGameFilter
@@ -39,7 +40,13 @@ class LibraryGameViewSet(viewsets.ModelViewSet):
         filters.OrderingFilter,
     )
     filterset_class = LibraryGameFilter
-    ordering_fields = ["game__name", "game__year", "game__rank", "num_withdraws"]
+    ordering_fields = [
+        "game__name",
+        "game__year",
+        "game__rank",
+        "game__weight",
+        "num_withdraws",
+    ]
     ordering = "game__name"
     permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)
     authentication_classes = [authentication.JWTAuthentication]

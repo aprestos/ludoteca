@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django_rest_passwordreset",
     "drf_yasg",
     "polymorphic",
+    "background_task",
     "backend.api.apps.ApiConfig",
 ]
 

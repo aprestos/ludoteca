@@ -85,6 +85,10 @@
           <b-button v-if="new Date(ticket.validFrom) > new Date() && !isStaff()" variant="light" block disabled>
             Coming December 5th
           </b-button>
+          <!-- TODO Change this! -->
+          <b-button v-if="true" variant="light" block disabled>
+            Sold out
+          </b-button>
           <b-button v-else-if="!isAuthenticated()" :to="{name: 'Login'}" variant="primary" block>
             Login
           </b-button>
@@ -188,7 +192,8 @@ export default {
     return {
       hasPreviousOrders: false,
       tickets: {},
-      loading: true
+      loading: true,
+      edition: {}
     }
   },
   created() {

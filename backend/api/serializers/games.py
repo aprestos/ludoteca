@@ -1,7 +1,15 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from backend.api.models import Supplier, Badge, Location, BggGame, Withdraw, LibraryGame, StoreGame
+from backend.api.models import (
+    Badge,
+    BggGame,
+    LibraryGame,
+    Location,
+    StoreGame,
+    Supplier,
+    Withdraw,
+)
 from backend.api.serializers.users import PlayerSerializer
 
 User = get_user_model()
@@ -35,6 +43,7 @@ class BggGameSerializer(serializers.ModelSerializer):
             "name",
             "rank",
             "thumbnail",
+            "weight",
             "image",
             "min_playtime",
             "max_playtime",

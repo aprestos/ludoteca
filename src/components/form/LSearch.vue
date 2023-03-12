@@ -1,5 +1,4 @@
 <template>
-  <form>
     <div class="input-group input-group-lg input-group-merge">
       <b-form-input
           v-model="term"
@@ -21,7 +20,6 @@
         </div>
       </div>
     </div>
-  </form>
 </template>
 
 <script>

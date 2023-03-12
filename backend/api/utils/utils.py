@@ -81,8 +81,9 @@ class BoardGameGeek:
         game.min_playtime = external.minplaytime
         game.max_playtime = external.maxplaytime
         game.rank = external.boardgame_rank
+        game.weight = external.rating_average_weight or 0
         game.other_names = external.alternative_names
-        game.year = external.yearpublished
+        game.year = external.yearpublished or 0
         return game
 
     @staticmethod

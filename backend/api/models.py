@@ -153,6 +153,7 @@ class BggGame(models.Model):
     badges = models.ManyToManyField(Badge, blank=True, default=None)
 
     rank = models.IntegerField(null=True)
+    weight = models.FloatField(null=True)
     min_players = models.IntegerField(null=True)
     max_players = models.IntegerField(null=True)
     min_playtime = models.IntegerField(null=True)
@@ -161,6 +162,7 @@ class BggGame(models.Model):
     image = models.CharField(blank=True, max_length=500)
     other_names = models.JSONField(blank=True, default=list)
     year = models.CharField(blank=True, max_length=10, default="", null=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @staticmethod
     def most_withdraws(number):
