@@ -92,6 +92,7 @@
             :game="game"
             :is-bulk-enabled="bulk"
             :loading="loading"
+            :show-status="new Date(edition.start)<= new Date()"
             :selectable="isGameSelectable(game)"
             :selected="selected.includes(game.id)"
             @return="refreshGames"
@@ -201,6 +202,7 @@
 <script>
 import gamesMixin from '@/mixins/games.mixin'
 import libraryService from '@/services/library.service'
+import editionService from "@/services/edition.service"
 import ModalPlayerSelect from '@/components/ModalPlayerSelect'
 import playerService from '@/services/player.service'
 import CheckinModal from '@/components/CheckinModal'
@@ -245,6 +247,7 @@ export default {
       ],
       currentPage: 1,
       totalGamesCount: 0,
+      edition: {}
     }
   },
   components: {
@@ -263,6 +266,8 @@ export default {
   mixins: [gamesMixin, usersMixin],
   created() {
     this.refreshGames()
+    //TODO Get current event
+    editionService.get(1).then((edition) => this.edition = edition)
   },
   methods: {
     selectAll() {

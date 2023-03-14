@@ -130,23 +130,25 @@
           :text="playtime(game.game.min_playtime, game.game.max_playtime)"
           icon="clock-fill"
         />
-        <metadata-item
-          v-if="
-            game.status === 'not-checked-in' || game.status === 'checked-out'
-          "
-          icon="exclamation-circle-fill"
-          text="Not available"
-          class="text-danger"
-        >
-        </metadata-item>
-        <metadata-item
-          class="text-warning"
-          v-if="game.status === 'not-available'"
-          :text="`Playing (${playingTime(
-            new Date(game.current_withdraw.date_withdrawn),
-          )})`"
-          icon="person-fill"
-        />
+        <div v-if="showStatus || isStaff()">
+          <metadata-item
+            v-if="
+              game.status === 'not-checked-in' || game.status === 'checked-out'
+            "
+            icon="exclamation-circle-fill"
+            text="Not available"
+            class="text-danger"
+          >
+          </metadata-item>
+          <metadata-item
+            class="text-warning"
+            v-if="game.status === 'not-available'"
+            :text="`Playing (${playingTime(
+              new Date(game.current_withdraw.date_withdrawn),
+            )})`"
+            icon="person-fill"
+          />
+        </div>
       </div>
 
       <b-modal
@@ -220,6 +222,10 @@ export default {
       default: false,
       type: Boolean,
     },
+    showStatus:{
+      default: false,
+      type: Boolean
+    }
   },
   mixins: [gamesMixin, usersMixin],
   components: {
