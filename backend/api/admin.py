@@ -90,7 +90,15 @@ class QuotaAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("id", "code", "user", "total", "is_payed", "is_sent")
+    list_display = (
+        "id",
+        "code",
+        "user",
+        "total",
+        "is_payed",
+        "is_sent",
+        "is_delivered",
+    )
     readonly_fields = ("user", "products", "total")
     ordering = ("id",)
     search_fields = ["id", "code", "user__first_name", "user__last_name", "user__email"]
