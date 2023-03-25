@@ -25,7 +25,7 @@
         <b-link v-b-modal="`details-game-${game_id}`">
           <progressive-img
               class="rounded"
-              :src="game.image"
+              :src="game.thumbnail"
               :src-fallback="game.thumbnail"
               :aspect-ratio="1"
           />
