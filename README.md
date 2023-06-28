@@ -50,20 +50,15 @@ Before getting started you should have the following installed and running:
 
 - [X] Yarn - [instructions](https://yarnpkg.com/en/docs/install)
 - [X] Vue CLI 3 - [instructions](https://cli.vuejs.org/guide/installation.html)
-- [X] Python 3 - [instructions](https://wiki.python.org/moin/BeginnersGuide)
-- [X] Pipenv - [instructions](https://pipenv.readthedocs.io/en/latest/install/#installing-pipenv)
+- [X] Python 3.10.8 or upper - [instructions](https://wiki.python.org/moin/BeginnersGuide)
+- [X] Poetry - [instructions](https://github.com/python-poetry/install.python-poetry.org)
 
-## Setup Template
-
-```
-$ git clone https://github.com/gtalarico/django-vue-template
-$ cd django-vue-template
-```
-
-Setup
+## Setup
 ```
 $ yarn install
-$ pip install poetry && poetry install
+$ curl -sSL https://install.python-poetry.org | python3 -
+$ poetry shell
+$ poetry install
 $ python manage.py migrate
 ```
 
